@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@import '@fontsource/fira-mono';
+
+@import '@skeletonlabs/skeleton';
+@import '@skeletonlabs/skeleton/optional/presets';
+@import '@skeletonlabs/skeleton/themes/cerberus';
+
+@source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	font-family: 'Fira Mono', monospace;
+	padding: 0;
+}
