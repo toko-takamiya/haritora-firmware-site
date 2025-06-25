@@ -1,4 +1,13 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+	"select_device": "Select your deviceeee",
+	"select_firmware": "Select firmware version",
+	"firmware_version": "Version {version} ({date})",
+	"release_notes": "Release Notes",
+	"dfu_step_set_update_mode": "Step 1: Put your {tracker} tracker(s) into update mode.",
+	"dfu_step_select_update_mode": "Step 2: Select your {tracker} tracker(s) again.",
+	"dfu_step_flash": "Step 3: Flash the new firmware to your {tracker} tracker(s).",
+	"button_set_update_mode": "Set to Update Mode",
+	"button_select_update_mode": "Select Device in Update Mode",
+	"button_flash": "Flash Firmware"
 }
