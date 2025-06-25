@@ -7,6 +7,7 @@
 	let { children } = $props();
 </script>
 
+<!-- #key used so we can force re-render when locale updates -->
 {#key $currentLocale}
 	<div
 		class="app flex min-h-screen flex-col bg-gradient-to-b from-gray-950 via-gray-900 to-gray-800 text-gray-100"

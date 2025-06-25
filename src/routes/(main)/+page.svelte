@@ -7,7 +7,7 @@
 		'HaritoraX Wireless',
 		'HaritoraX 1.1b',
 		'HaritoraX 1.1',
-		'HaritoraX 1.0'
+		'HaritoraX (1.0)'
 	];
 
 	const firmwareVersions = [
@@ -21,7 +21,7 @@
 	let dfuStep = $state(1);
 </script>
 
-<div class="mb-6 flex justify-center gap-2">
+<div class="mb-6 flex justify-center gap-3">
 	<button
 		class="btn btn-sm bg-primary-500 {$currentLocale === 'en' ? 'bg-primary-800' : ''}"
 		onclick={() => updateLocale('en')}>en</button
@@ -63,7 +63,7 @@
 
 	<!-- DFU Steps -->
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
-		<div class="flex flex-col items-center justify-center gap-2">
+		<div class="flex flex-col items-center justify-center gap-3">
 			<p>{m.dfu_step_set_update_mode({ tracker: selectedDevice })}</p>
 			<button
 				class="btn bg-primary-500"
@@ -74,7 +74,7 @@
 			>
 		</div>
 		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-2">
+		<div class="flex flex-col items-center justify-center gap-3">
 			<p>{m.dfu_step_select_update_mode({ tracker: selectedDevice })}</p>
 			<button
 				class="btn bg-primary-500"
@@ -85,7 +85,7 @@
 			>
 		</div>
 		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-2">
+		<div class="flex flex-col items-center justify-center gap-3">
 			<p>{m.dfu_step_flash({ tracker: selectedDevice })}</p>
 			<button class="btn bg-secondary-500" onclick={() => alert('Flashing firmware (placeholder)')}
 				>{m.button_flash()}</button
