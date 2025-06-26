@@ -1,4 +1,4 @@
-<header class="w-full bg-gradient-to-r from-blue-600 to-cyan-500 py-4 text-white shadow-md">
+<header class="w-full bg-gradient-to-r from-gray-800 to-gray-700 py-4 text-gray-100 shadow-md">
 	<div class="container mx-auto flex items-center justify-between px-4">
 		<div class="flex items-center gap-3">
 			<img src="/logo.png" alt="SlimeTora Logo" class="h-8 rounded-md" />

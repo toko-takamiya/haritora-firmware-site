@@ -5,9 +5,13 @@
 	"firmware_version": "v{version} ({date})",
 	"release_notes": "Release Notes",
 	"dfu_step_set_update_mode": "Step 1: Put your {tracker} tracker into update mode.",
+	"dfu_step_set_update_mode_note": "This will turn your tracker into DFU mode, letting the trackers appear as something similar to \"HaritoraXW-UPDATE\".",
 	"dfu_step_select_update_mode": "Step 2: Select your {tracker} tracker again.",
-	"dfu_step_flash": "Step 3: Flash the new firmware to your {tracker} tracker.",
+	"dfu_step_select_update_mode_note": "Select the tracker that is now in update mode. It should appear as something similar to \"HaritoraXW-UPDATE\".",
+	"dfu_step_flash": "Step 3: Flash the selected firmware to your {tracker} tracker.",
+	"dfu_step_flash_note": "This will flash the selected firmware to your tracker.",
 	"button_set_update_mode": "Set to update mode",
 	"button_select_update_mode": "Start updating",
-	"button_flash": "Flash firmware"
+	"button_flash": "Flash firmware",
+	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your trackers. You agree to use this tool at your own risk."
 }

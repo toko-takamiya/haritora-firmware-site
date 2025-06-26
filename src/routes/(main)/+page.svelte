@@ -58,7 +58,10 @@
 	<!-- DFU Steps -->
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
 		<div class="flex flex-col items-center justify-center gap-3">
-			<p>{m.dfu_step_set_update_mode({ tracker: selectedDevice })}</p>
+			<div class="text-center">
+				<p>{m.dfu_step_set_update_mode({ tracker: selectedDevice })}</p>
+				<p class="text-sm opacity-70">{m.dfu_step_set_update_mode_note()}</p>
+			</div>
 			<button
 				class="btn bg-primary-500"
 				onclick={() => {
@@ -69,7 +72,10 @@
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
-			<p>{m.dfu_step_select_update_mode({ tracker: selectedDevice })}</p>
+			<div class="text-center">
+				<p>{m.dfu_step_select_update_mode({ tracker: selectedDevice })}</p>
+				<p class="text-sm opacity-70">{m.dfu_step_select_update_mode_note()}</p>
+			</div>
 			<button
 				class="btn bg-primary-500"
 				onclick={() => {
@@ -80,7 +86,10 @@
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
-			<p>{m.dfu_step_flash({ tracker: selectedDevice })}</p>
+			<div class="text-center">
+				<p>{m.dfu_step_flash({ tracker: selectedDevice })}</p>
+				<p class="text-sm opacity-70">{m.dfu_step_flash_note()}</p>
+			</div>
 			<button class="btn bg-secondary-500" onclick={() => alert('Flashing firmware (placeholder)')}
 				>{m.button_flash()}</button
 			>
@@ -89,11 +98,5 @@
 </div>
 
 <p class="mt-10 text-center text-sm opacity-70">
-	Lorem ipsum dolor <a
-		href="https://jovann.me"
-		target="_blank"
-		rel="noopener noreferrer"
-		class="underline">sit amet</a
-	>
-	consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+	{m.disclaimer()}
 </p>
