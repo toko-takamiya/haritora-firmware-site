@@ -13,17 +13,6 @@
 	});
 </script>
 
-<div class="mb-6 flex justify-center gap-3">
-	<button
-		class="btn btn-sm bg-primary-500 {$currentLocale === 'en' ? 'bg-primary-800' : ''}"
-		onclick={() => updateLocale('en')}>en</button
-	>
-	<button
-		class="btn btn-sm bg-primary-500 {$currentLocale === 'ja' ? 'bg-primary-800' : ''}"
-		onclick={() => updateLocale('ja')}>ja</button
-	>
-</div>
-
 <div class="mx-auto w-full max-w-2xl space-y-6">
 	<!-- Device and firmware selection -->
 	<div class="flex flex-col gap-6 rounded-lg bg-gray-800 p-6 shadow md:flex-row">
