@@ -31,7 +31,7 @@ const haritorax2Versions: FirmwareVersion[] = [
 	{ version: 'b9b09e9', date: '2025-01-23', filename: 'mc4seb-2-b9b09e9.zip', notes: 'Unknown' },
 	{
 		version: '1.0.21',
-		date: '2022-01-30',
+		date: '2025-03-25',
 		filename: 'mc4seb-2-b645dee.zip',
 		notes:
 			'LiDAR sensor capture angle improved (wider).\r\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\r\nOther minor modifications.'
