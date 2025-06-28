@@ -15,6 +15,7 @@ export function updateLocale(newLocale) {
 export type FirmwareVersion = {
 	version: string;
 	date: string;
+	filename: string;
 	notes: string;
 };
 
@@ -23,33 +24,114 @@ export type FirmwareVersionsMap = {
 };
 
 const haritorax2Versions: FirmwareVersion[] = [
-	{ version: '2.0.0', date: '2022-01-01', notes: 'HaritoraX 2 initial release' },
-	{ version: '2.1.0', date: '2022-06-01', notes: 'HaritoraX 2 feature update' }
+	{ version: '095fdce', date: '2024-12-11', filename: 'mc4seb-2-095fdce.zip', notes: 'Unknown' },
+	{ version: 'ce48200', date: '2024-12-17', filename: 'mc4seb-2-ce48200.zip', notes: 'Unknown' },
+	{ version: 'c796754', date: '2025-01-08', filename: 'mc4seb-2-c796754.zip', notes: 'Unknown' },
+	{ version: '9648bfd', date: '2025-01-21', filename: 'mc4seb-2-9648bfd.zip', notes: 'Unknown' },
+	{ version: 'b9b09e9', date: '2025-01-23', filename: 'mc4seb-2-b9b09e9.zip', notes: 'Unknown' },
+	{
+		version: '1.0.21',
+		date: '2022-01-30',
+		filename: 'mc4seb-2-b645dee.zip',
+		notes:
+			'LiDAR sensor capture angle improved (wider).\r\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\r\nOther minor modifications.'
+	},
+	{ version: 'a85a6e5', date: '2025-02-27', filename: 'mc4seb-2-a85a6e5.zip', notes: 'Unknown' },
+	{
+		version: '1.0.28',
+		date: '2025-06-03',
+		filename: 'mc4seb-2-c4d6efb.zip',
+		notes:
+			'It is now possible to change the attachment point for all previously sold “HaritoraX Wireless Elbow Expansion Sets.\r\nFor example, you can change from Elbow → Foot or Elbow → Wrist.\r\n\r\nOther minor improvements.'
+	},
+	{
+		version: 'b475ca6',
+		date: '2025-05-12',
+		filename: 'mc4seb-2-b475ca6.zip',
+		notes: 'Unknown'
+	},
+	{
+		version: '3a1129c',
+		date: '2025-05-19',
+		filename: 'mc4seb-2-3a1129c.zip',
+		notes: 'Unknown'
+	},
+	{
+		version: 'ab87abb',
+		date: '2025-06-28',
+		filename: 'mc4seb-2-ab87abb.zip',
+		notes: 'Unknown'
+	}
 ];
 
 const haritoraxWirelessVersions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2023-03-15', notes: 'HaritoraX Wireless initial release' },
-	{ version: '1.1.0', date: '2023-07-20', notes: 'HaritoraX Wireless bug fixes' }
+	{
+		version: '1.0.18',
+		date: '2023-10-30',
+		filename: 'mc3_sensor_20231117_e53a9ce.zip',
+		notes: 'Supported GX6 communication dongle.'
+	},
+	{
+		version: '1.0.25',
+		date: '2024-07-28',
+		filename: 'mc3_sensor_20240613_e1dd725.zip',
+		notes: 'No change in functionality or performance under normal use.'
+	},
+	{
+		version: 'ea3497b',
+		date: '2024-08-01',
+		filename: 'mc3_sensor_20240801_ea3497b.zip',
+		notes: 'Unknown'
+	},
+	{
+		version: '1.0.28',
+		date: '2025-06-03',
+		filename: 'mc3_sensor_20250430_5398332.zip',
+		notes:
+			'It is now possible to change the attachment point for all previously sold “HaritoraX Wireless Elbow Expansion Sets.\r\nFor example, you can change from Elbow → Foot or Elbow → Wrist.\r\n\r\nOther minor improvements.'
+	},
+	{
+		version: '68aced4',
+		date: '2024-08-01',
+		filename: 'mc3_sensor_mc3_bootloader_20250120_68aced4.zip',
+		notes: 'Unknown'
+	}
 ];
 
 const haritorax11bVersions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2021-05-10', notes: 'HaritoraX 1.1b initial release' },
-	{ version: '1.1.0', date: '2021-08-22', notes: 'HaritoraX 1.1b feature update' }
+	{ version: '1.0.0', date: '2021-05-10', filename: '', notes: 'HaritoraX 1.1b initial release' },
+	{ version: '1.1.0', date: '2021-08-22', filename: '', notes: 'HaritoraX 1.1b feature update' }
 ];
 
 const haritorax11Versions: FirmwareVersion[] = [
-	{ version: '1.1.0', date: '2020-11-11', notes: 'HaritoraX 1.1 initial release' },
-	{ version: '1.1.1', date: '2021-01-15', notes: 'HaritoraX 1.1 bug fixes' }
+	{ version: '1.1.0', date: '2020-11-11', filename: '', notes: 'HaritoraX 1.1 initial release' },
+	{ version: '1.1.1', date: '2021-01-15', filename: '', notes: 'HaritoraX 1.1 bug fixes' }
 ];
 
 const haritorax10Versions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2020-01-01', notes: 'HaritoraX 1.0 initial release' },
-	{ version: '1.0.2', date: '2020-03-10', notes: 'HaritoraX 1.0 bug fixes' }
+	{ version: '1.0.0', date: '2020-01-01', filename: '', notes: 'HaritoraX 1.0 initial release' },
+	{ version: '1.0.2', date: '2020-03-10', filename: '', notes: 'HaritoraX 1.0 bug fixes' }
 ];
 
 const gxVersions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2021-01-01', notes: 'GX initial release' },
-	{ version: '1.1.0', date: '2021-06-01', notes: 'GX feature update' }
+	{
+		version: '1.0.17',
+		date: '2023-9-27',
+		filename: 'mc3_dongle_20230927_477d506.zip',
+		notes: 'Firmware on initial shipment'
+	},
+	{
+		version: '1.0.19',
+		date: '2023-10-31',
+		filename: 'mc3_dongle_20231005_fece09a.zip',
+		notes: 'Fixed communication-related problems.'
+	},
+	{
+		version: '1.0.26',
+		date: '2025-01-30',
+		filename: 'mc3_dongle_mc3_bootloader_20240801_ea3497b.zip',
+		notes: 'Compatible with HaritoraX 2.'
+	}
 ];
 
 export enum Device {
