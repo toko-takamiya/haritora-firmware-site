@@ -25,16 +25,20 @@
 			"select_update_mode": "Start updating",
 			"flash": "Flash firmware"
 		},
-		"progress": {
-			"status": "Status: {status}",
-			"progress": "Progress: {progress}%"
-		},
 		"status": {
-			"waiting": "Waiting to flash firmware...",
-			"error": "Error flashing firmware, please try again.",
-			"selecting": "Selecting tracker in update mode...",
-			"flashing": "Flashing firmware to tracker...",
-			"completed": "Firmware flash completed successfully!"
-		}
+			"status": "Status: {status}",
+			"waiting": "waiting for user...",
+			"please_select": "please select a device and firmware first",
+			"firmware_updater_not_initialized": "firmware updater is not initialized",
+			"setting_update_mode": "setting device to update mode...",
+			"set_update_mode": "device set to update mode successfully!",
+			"selecting_dfu": "selecting DFU device...",
+			"dfu_selected": "DFU device selected and ready to flash.",
+			"starting_update": "starting firmware update...",
+			"connection_lost": "connection to device lost during update.",
+			"cancelled": "firmware update cancelled.",
+			"firmware_completed": "firmware update completed!"
+		},
+		"debug_log": "Debug log:"
 	}
 }

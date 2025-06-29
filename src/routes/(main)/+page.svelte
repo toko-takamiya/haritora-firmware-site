@@ -11,9 +11,11 @@
 
 	let dfuDevice = $state<BluetoothDevice | null>(null);
 	let updateProgress = $state(0);
-	let updateStatus = $state('waiting');
+	let updateStatus = $state(m['dfu.status.waiting']());
 	let isUpdating = $state(false);
 	let logMessages = $state<string[]>([]);
+
+	// TODO: use connection_lost and cancelled
 
 	$effect(() => {
 		selectedFirmware = firmwareList[0];
@@ -33,22 +35,16 @@
 	async function handleSetUpdateMode() {
 		try {
 			isUpdating = true;
-			updateStatus = 'Setting device to update mode...';
+			updateStatus = m['dfu.status.setting_update_mode']();
 			logMessages = [];
 
 			if (!firmwareUpdater) {
-				updateStatus = 'Firmware updater is not initialized';
+				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
 				return;
 			}
 
-			const device = await firmwareUpdater.setUpdateMode();
-
-			if (!device) {
-				updateStatus = 'Device is in update mode. Please select it again.';
-			} else {
-				dfuDevice = device;
-				updateStatus = 'Device ready for update';
-			}
+			await firmwareUpdater.setUpdateMode();
+			updateStatus = m['dfu.status.set_update_mode']();
 		} catch (error) {
 			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Set update mode error:', error);
@@ -60,15 +56,15 @@
 	async function handleSelectDFUDevice() {
 		try {
 			isUpdating = true;
-			updateStatus = 'Selecting DFU device...';
+			updateStatus = m['dfu.status.selecting_dfu']();
 
 			if (!firmwareUpdater) {
-				updateStatus = 'Firmware updater is not initialized';
+				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
 				return;
 			}
 
 			dfuDevice = await firmwareUpdater.selectDFUDevice();
-			updateStatus = 'DFU device selected and ready';
+			updateStatus = m['dfu.status.dfu_selected']();
 		} catch (error) {
 			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Select DFU device error:', error);
@@ -79,24 +75,24 @@
 
 	async function handleFlashFirmware() {
 		if (!dfuDevice || !selectedFirmware) {
-			updateStatus = 'Please select a device and firmware first';
+			updateStatus = m['dfu.status.please_select']();
 			return;
 		}
 
 		try {
 			isUpdating = true;
 			updateProgress = 0;
-			updateStatus = 'Starting firmware update...';
+			updateStatus = m['dfu.status.starting_update']();
 
 			if (!firmwareUpdater) {
-				updateStatus = 'Firmware updater is not initialized';
+				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
 				return;
 			}
 
 			const firmwareBuffer = await firmwareUpdater.downloadFirmware(selectedFirmware);
 			await firmwareUpdater.flashFirmware(dfuDevice, firmwareBuffer);
 
-			updateStatus = 'Firmware update completed!';
+			updateStatus = m['dfu.status.firmware_completed']();
 			updateProgress = 100;
 		} catch (error) {
 			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
@@ -174,7 +170,7 @@
 		</div>
 		<hr class="hr" />
 		<div class="flex w-full flex-col items-center justify-center gap-4">
-			<p>{m['dfu.progress.status']({ status: updateStatus })}</p>
+			<p>{m['dfu.status.status']({ status: updateStatus })}</p>
 			<Progress value={updateProgress > 0 ? updateProgress : null} />
 		</div>
 	</div>
