@@ -28,6 +28,13 @@
 		"progress": {
 			"status": "Status: {status}",
 			"progress": "Progress: {progress}%"
+		},
+		"status": {
+			"waiting": "Waiting to flash firmware...",
+			"error": "Error flashing firmware, please try again.",
+			"selecting": "Selecting tracker in update mode...",
+			"flashing": "Flashing firmware to tracker...",
+			"completed": "Firmware flash completed successfully!"
 		}
 	}
 }

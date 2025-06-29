@@ -2,15 +2,109 @@
 	import { m } from '$lib/paraglide/messages.js';
 	import { type FirmwareVersion } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
+	import { firmwareUpdater } from '$lib/store/updater';
 	import { Progress } from '@skeletonlabs/skeleton-svelte';
 
 	let selectedDevice = $state(Device.HaritoraX2);
 	let firmwareList = $derived(firmwareVersions[selectedDevice]);
 	let selectedFirmware = $state<FirmwareVersion>();
 
+	let dfuDevice = $state<BluetoothDevice | null>(null);
+	let updateProgress = $state(0);
+	let updateStatus = $state('waiting');
+	let isUpdating = $state(false);
+	let logMessages = $state<string[]>([]);
+
 	$effect(() => {
 		selectedFirmware = firmwareList[0];
 	});
+
+	if (firmwareUpdater) {
+		firmwareUpdater.setProgressCallback((progress) => {
+			updateProgress = Math.round((progress.currentBytes / progress.totalBytes) * 100);
+			updateStatus = `Updating ${progress.object}...`;
+		});
+
+		firmwareUpdater.setLogCallback((message) => {
+			logMessages = [...logMessages, message];
+		});
+	}
+
+	async function handleSetUpdateMode() {
+		try {
+			isUpdating = true;
+			updateStatus = 'Setting device to update mode...';
+			logMessages = [];
+
+			if (!firmwareUpdater) {
+				updateStatus = 'Firmware updater is not initialized';
+				return;
+			}
+
+			const device = await firmwareUpdater.setUpdateMode();
+
+			if (!device) {
+				updateStatus = 'Device is in update mode. Please select it again.';
+			} else {
+				dfuDevice = device;
+				updateStatus = 'Device ready for update';
+			}
+		} catch (error) {
+			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			console.error('Set update mode error:', error);
+		} finally {
+			isUpdating = false;
+		}
+	}
+
+	async function handleSelectDFUDevice() {
+		try {
+			isUpdating = true;
+			updateStatus = 'Selecting DFU device...';
+
+			if (!firmwareUpdater) {
+				updateStatus = 'Firmware updater is not initialized';
+				return;
+			}
+
+			dfuDevice = await firmwareUpdater.selectDFUDevice();
+			updateStatus = 'DFU device selected and ready';
+		} catch (error) {
+			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			console.error('Select DFU device error:', error);
+		} finally {
+			isUpdating = false;
+		}
+	}
+
+	async function handleFlashFirmware() {
+		if (!dfuDevice || !selectedFirmware) {
+			updateStatus = 'Please select a device and firmware first';
+			return;
+		}
+
+		try {
+			isUpdating = true;
+			updateProgress = 0;
+			updateStatus = 'Starting firmware update...';
+
+			if (!firmwareUpdater) {
+				updateStatus = 'Firmware updater is not initialized';
+				return;
+			}
+
+			const firmwareBuffer = await firmwareUpdater.downloadFirmware(selectedFirmware);
+			await firmwareUpdater.flashFirmware(dfuDevice, firmwareBuffer);
+
+			updateStatus = 'Firmware update completed!';
+			updateProgress = 100;
+		} catch (error) {
+			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			console.error('Flash firmware error:', error);
+		} finally {
+			isUpdating = false;
+		}
+	}
 </script>
 
 <div class="mx-auto w-full max-w-2xl space-y-6">
@@ -28,7 +122,8 @@
 			<label class="mb-2 block font-semibold" for="firmware-select">{m['select.firmware']()}</label>
 			<select id="firmware-select" class="select w-full" bind:value={selectedFirmware}>
 				{#each firmwareList as fw}
-					<option value={fw}>{m['firmware.version']({ version: fw.version, date: fw.date })}</option>
+					<option value={fw}>{m['firmware.version']({ version: fw.version, date: fw.date })}</option
+					>
 				{/each}
 			</select>
 		</div>
@@ -49,12 +144,9 @@
 				<p>{m['dfu.step.set_update_mode']({ tracker: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.set_update_mode']()}</p>
 			</div>
-			<button
-				class="btn bg-primary-500"
-				onclick={() => {
-					alert('Set device to update mode (placeholder)');
-				}}>{m['dfu.button.set_update_mode']()}</button
-			>
+			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSetUpdateMode}>
+				{m['dfu.button.set_update_mode']()}
+			</button>
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
@@ -62,12 +154,9 @@
 				<p>{m['dfu.step.select_update_mode']({ tracker: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.select_update_mode']()}</p>
 			</div>
-			<button
-				class="btn bg-primary-500"
-				onclick={() => {
-					alert('Select device in update mode (placeholder)');
-				}}>{m['dfu.button.select_update_mode']()}</button
-			>
+			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSelectDFUDevice}>
+				{m['dfu.button.select_update_mode']()}
+			</button>
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
@@ -75,16 +164,32 @@
 				<p>{m['dfu.step.flash']({ tracker: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.flash']()}</p>
 			</div>
-			<button class="btn bg-secondary-500" onclick={() => alert('Flashing firmware (placeholder)')}
-				>{m['dfu.button.flash']()}</button
+			<button
+				class="btn bg-secondary-500"
+				disabled={isUpdating || !dfuDevice || !selectedFirmware}
+				onclick={handleFlashFirmware}
 			>
+				{m['dfu.button.flash']()}
+			</button>
 		</div>
 		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-4">
-			<p>{m['dfu.progress.status']({ status: 'meow' })}</p>
-			<Progress value={null} />
+		<div class="flex w-full flex-col items-center justify-center gap-4">
+			<p>{m['dfu.progress.status']({ status: updateStatus })}</p>
+			<Progress value={updateProgress > 0 ? updateProgress : null} />
 		</div>
 	</div>
+
+	<!-- Debug log (optional) -->
+	{#if logMessages.length > 0}
+		<div class="rounded-lg bg-gray-800 p-6 shadow">
+			<strong class="mb-2 block">Debug Log:</strong>
+			<div class="max-h-40 overflow-y-auto font-mono text-xs text-gray-400">
+				{#each logMessages as message}
+					<div>{message}</div>
+				{/each}
+			</div>
+		</div>
+	{/if}
 
 	<p class="mt-10 text-center text-sm opacity-70">
 		{m['disclaimer']()}

@@ -1,5 +1,5 @@
 {
-	"name": "my-skeleton-app",
+	"name": "haritora-firmware-site",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
@@ -40,6 +40,16 @@
 		"vite-plugin-devtools-json": "^0.2.0"
 	},
 	"dependencies": {
-		"@inlang/paraglide-js": "^2.0.0"
-	}
+		"@inlang/paraglide-js": "^2.0.0",
+		"@types/node": "^24.0.7",
+		"@types/web-bluetooth": "^0.0.21",
+		"crc-32": "^1.2.2",
+		"jszip": "^3.10.1",
+		"web-bluetooth-dfu": "^1.2.1",
+		"webbluetooth": "^3.3.2"
+	},
+	"trustedDependencies": [
+		"@tailwindcss/oxide",
+		"webbluetooth"
+	]
 }

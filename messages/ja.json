@@ -17,7 +17,7 @@
 		},
 		"step_note": {
 			"set_update_mode": "This will turn your tracker into DFU mode, letting the trackers appear as something similar to \"HaritoraXW-UPDATE\".",
-			"select_update_mode": "Select the tracker that is now in update ode. It should appear as something similar to \"HaritoraXW-UPDATE\".",
+			"select_update_mode": "Select the tracker that is now in update mode. It should appear as something similar to \"HaritoraXW-UPDATE\".",
 			"flash": "This will flash the selected firmware to your tracker."
 		},
 		"button": {
@@ -28,6 +28,13 @@
 		"progress": {
 			"status": "Status: {status}",
 			"progress": "Progress: {progress}%"
+		},
+		"status": {
+			"waiting": "Waiting to flash firmware...",
+			"error": "Error flashing firmware, please try again.",
+			"selecting": "Selecting tracker in update mode...",
+			"flashing": "Flashing firmware to tracker...",
+			"completed": "Firmware flash completed successfully!"
 		}
 	}
 }
