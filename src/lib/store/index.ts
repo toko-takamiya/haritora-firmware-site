@@ -27,29 +27,61 @@ const urlPrefix = '/firmware'; // URL prefix for firmware files - could be serve
 
 // assume all "unknown" versions (commit hashes / "unknown" notes) have dates from VR Manager's Steam depot
 const haritorax2Versions: FirmwareVersion[] = [
-	{ version: '095fdce', date: '2024-12-11', filename: `${urlPrefix}/mc4seb/mc4seb-2-095fdce.zip`, notes: 'Unknown' },
-	{ version: 'ce48200', date: '2024-12-17', filename: `${urlPrefix}/mc4seb/mc4seb-2-ce48200.zip`, notes: 'Unknown' },
-	{ version: 'c796754', date: '2025-01-08', filename: `${urlPrefix}/mc4seb/mc4seb-2-c796754.zip`, notes: 'Unknown' },
 	{
-		version: '9648bfd (likely 1.0.5)',
+		version: '1.0.1',
+		date: '2024-12-11',
+		filename: `${urlPrefix}/mc4seb/mc4seb-2-095fdce.zip`,
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+	},
+	{
+		version: '1.0.3',
+		date: '2024-12-17',
+		filename: `${urlPrefix}/mc4seb/mc4seb-2-ce48200.zip`,
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+	},
+	{
+		version: '1.0.7',
+		date: '2025-01-08',
+		filename: `${urlPrefix}/mc4seb/mc4seb-2-c796754.zip`,
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+	},
+	{
+		version: '1.0.10',
 		date: '2025-01-21',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-9648bfd.zip`,
-		notes: 'Unknown'
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
 	},
 	{
-		version: 'b9b09e9 (likely 1.0.14)',
+		version: '1.0.14',
 		date: '2025-01-23',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-b9b09e9.zip`,
-		notes: 'Unknown'
+		notes: 'Minor update.'
 	},
 	{
-		version: '1.0.21',
-		date: '2025-03-25', // date from official manual
+		version: '1.0.15',
+		date: '2025-01-30',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-b645dee.zip`,
 		notes:
 			'LiDAR sensor capture angle improved (wider).\r\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\r\nOther minor modifications.'
 	},
-	{ version: 'a85a6e5', date: '2025-02-27', filename: `${urlPrefix}/mc4seb/mc4seb-2-a85a6e5.zip`, notes: 'Unknown' },
+	{
+		version: '1.0.19',
+		date: '2025-02-27',
+		filename: `${urlPrefix}/mc4seb/mc4seb-2-a85a6e5.zip`,
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+	},
+	{
+		version: '1.0.21',
+		date: '2025-03-24',
+		filename: `${urlPrefix}/mc4seb/mc4seb-2-c4d6efb.zip`,
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+	},
 	{
 		version: '1.0.24',
 		date: '2025-05-12', // date from official manual
@@ -64,25 +96,21 @@ const haritorax2Versions: FirmwareVersion[] = [
 		notes: 'Fixed an issue where the red LED would remain on even after charging was complete.'
 	},
 	{
-		version: 'c4d6efb',
-		date: '2025-06-03',
-		filename: `${urlPrefix}/mc4seb/mc4seb-2-c4d6efb.zip`,
-		notes: 'Unknown'
-	},
-	{
-		version: 'ab87abb',
+		version: '1.0.27',
 		date: '2025-06-28',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-ab87abb.zip`,
-		notes: 'Unknown'
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
 	}
 ];
 
 const haritoraxWirelessVersions: FirmwareVersion[] = [
 	{
-		version: '1.0.18',
-		date: '2023-10-30', // date from official manual
+		version: '1.0.22',
+		date: '2023-11-30', // date from official manual
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20231117_e53a9ce.zip`,
-		notes: 'Supported GX6 communication dongle.'
+		notes:
+			'Fixed a bug that the settings of attach location(CHEST, HIP, etc.) were rewritten.\r\nOther minor modifications.'
 	},
 	{
 		version: '1.0.25',
@@ -91,16 +119,18 @@ const haritoraxWirelessVersions: FirmwareVersion[] = [
 		notes: 'No change in functionality or performance under normal use.'
 	},
 	{
-		version: 'ea3497b',
+		version: '1.0.26',
 		date: '2024-08-01', // date from file name
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20240801_ea3497b.zip`,
-		notes: 'Unknown'
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
 	},
 	{
-		version: '68aced4',
+		version: '1.0.27',
 		date: '2025-01-20', // date from file name
 		filename: `${urlPrefix}/mc3s/mc3_sensor_mc3_bootloader_20250120_68aced4.zip`,
-		notes: 'Unknown'
+		notes:
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
 	},
 	{
 		version: '1.0.28',
@@ -133,35 +163,35 @@ const gxVersions: FirmwareVersion[] = [
 	}
 ];
 
-const haritorax11bVersions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2021-05-10', filename: '', notes: 'HaritoraX 1.1b initial release' },
-	{ version: '1.1.0', date: '2021-08-22', filename: '', notes: 'HaritoraX 1.1b feature update' }
-];
+// const haritorax11bVersions: FirmwareVersion[] = [
+// 	{ version: '1.0.0', date: '2021-05-10', filename: '', notes: 'HaritoraX 1.1b initial release' },
+// 	{ version: '1.1.0', date: '2021-08-22', filename: '', notes: 'HaritoraX 1.1b feature update' }
+// ];
 
-const haritorax11Versions: FirmwareVersion[] = [
-	{ version: '1.1.0', date: '2020-11-11', filename: '', notes: 'HaritoraX 1.1 initial release' },
-	{ version: '1.1.1', date: '2021-01-15', filename: '', notes: 'HaritoraX 1.1 bug fixes' }
-];
+// const haritorax11Versions: FirmwareVersion[] = [
+// 	{ version: '1.1.0', date: '2020-11-11', filename: '', notes: 'HaritoraX 1.1 initial release' },
+// 	{ version: '1.1.1', date: '2021-01-15', filename: '', notes: 'HaritoraX 1.1 bug fixes' }
+// ];
 
-const haritorax10Versions: FirmwareVersion[] = [
-	{ version: '1.0.0', date: '2020-01-01', filename: '', notes: 'HaritoraX 1.0 initial release' },
-	{ version: '1.0.2', date: '2020-03-10', filename: '', notes: 'HaritoraX 1.0 bug fixes' }
-];
+// const haritorax10Versions: FirmwareVersion[] = [
+// 	{ version: '1.0.0', date: '2020-01-01', filename: '', notes: 'HaritoraX 1.0 initial release' },
+// 	{ version: '1.0.2', date: '2020-03-10', filename: '', notes: 'HaritoraX 1.0 bug fixes' }
+// ];
 
 export enum Device {
 	HaritoraX2 = 'HaritoraX 2',
 	HaritoraXWireless = 'HaritoraX Wireless',
-	HaritoraX11b = 'HaritoraX 1.1b',
-	HaritoraX11 = 'HaritoraX 1.1',
-	HaritoraX10 = 'HaritoraX (1.0)',
+	//HaritoraX11b = 'HaritoraX 1.1b',
+	//HaritoraX11 = 'HaritoraX 1.1',
+	//HaritoraX10 = 'HaritoraX (1.0)',
 	GX = 'GX (6/2)'
 }
 
 export const firmwareVersions: FirmwareVersionsMap = {
 	[Device.HaritoraX2]: haritorax2Versions,
 	[Device.HaritoraXWireless]: haritoraxWirelessVersions,
-	[Device.HaritoraX11b]: haritorax11bVersions,
-	[Device.HaritoraX11]: haritorax11Versions,
-	[Device.HaritoraX10]: haritorax10Versions,
+	//[Device.HaritoraX11b]: haritorax11bVersions,
+	//[Device.HaritoraX11]: haritorax11Versions,
+	//[Device.HaritoraX10]: haritorax10Versions,
 	[Device.GX]: gxVersions
 };

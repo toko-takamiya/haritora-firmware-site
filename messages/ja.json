@@ -25,9 +25,17 @@
 			"select_update_mode": "Start updating",
 			"flash": "Flash firmware"
 		},
-		"status": {
+		"progress": {
 			"status": "Status: {status}",
+			"progress": "Progress: {progress}%"
+		},
+		"status": {
 			"waiting": "waiting for user...",
+			"error": "Error flashing firmware, please try again.",
+			"selecting": "Selecting tracker in update mode...",
+			"flashing": "Flashing firmware to tracker...",
+			"completed": "Firmware flash completed successfully!",
+			"status": "Status: {status}",
 			"please_select": "please select a device and firmware first",
 			"firmware_updater_not_initialized": "firmware updater is not initialized",
 			"setting_update_mode": "setting device to update mode...",

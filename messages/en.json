@@ -1,6 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your trackers. You agree to use this tool at your own risk.",
+	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.",
 	"select": {
 		"device": "Select your device",
 		"firmware": "Select firmware version"
@@ -16,8 +16,8 @@
 			"flash": "Step 3: Flash the selected firmware to your {tracker} tracker."
 		},
 		"step_note": {
-			"set_update_mode": "This will turn your tracker into DFU mode, letting the trackers appear as something similar to \"HaritoraXW-UPDATE\".",
-			"select_update_mode": "Select the tracker that is now in update mode. It should appear as something similar to \"HaritoraXW-UPDATE\".",
+			"set_update_mode": "This will turn your tracker into DFU (Device Firmware Update) mode, letting the trackers appear as \"HaritoraXW-Update\".",
+			"select_update_mode": "Select the tracker that is now in DFU (Device Firmware Update) mode. It should appear as \"HaritoraXW-Update\".",
 			"flash": "This will flash the selected firmware to your tracker."
 		},
 		"button": {
@@ -32,8 +32,8 @@
 		"status": {
 			"waiting": "waiting for user...",
 			"error": "Error flashing firmware, please try again.",
-			"selecting": "Selecting tracker in update mode...",
-			"flashing": "Flashing firmware to tracker...",
+			"selecting": "Selecting device in update mode...",
+			"updating": "Flashing firmware... ({current}/{total} bytes, {progress}%)",
 			"completed": "Firmware flash completed successfully!",
 			"cancelled": "firmware update cancelled.",
 			"device_not_found": "No compatible device found.",

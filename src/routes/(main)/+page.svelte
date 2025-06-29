@@ -24,7 +24,11 @@
 	if (firmwareUpdater) {
 		firmwareUpdater.setProgressCallback((progress) => {
 			updateProgress = Math.round((progress.currentBytes / progress.totalBytes) * 100);
-			updateStatus = `Updating ${progress.object}...`;
+			updateStatus = m['dfu.status.updating']({
+				progress: updateProgress,
+				total: progress.totalBytes,
+				current: progress.currentBytes
+			});
 		});
 
 		firmwareUpdater.setLogCallback((message) => {
@@ -46,7 +50,7 @@
 			await firmwareUpdater.setUpdateMode();
 			updateStatus = m['dfu.status.set_update_mode']();
 		} catch (error) {
-			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Set update mode error:', error);
 		} finally {
 			isUpdating = false;
@@ -66,7 +70,7 @@
 			dfuDevice = await firmwareUpdater.selectDFUDevice();
 			updateStatus = m['dfu.status.dfu_selected']();
 		} catch (error) {
-			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Select DFU device error:', error);
 		} finally {
 			isUpdating = false;
@@ -95,7 +99,7 @@
 			updateStatus = m['dfu.status.firmware_completed']();
 			updateProgress = 100;
 		} catch (error) {
-			updateStatus = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Flash firmware error:', error);
 		} finally {
 			isUpdating = false;
@@ -103,6 +107,7 @@
 	}
 </script>
 
+<!-- TODO: add button to check version -->
 <div class="mx-auto w-full max-w-2xl space-y-6">
 	<!-- Device and firmware selection -->
 	<div class="flex flex-col gap-6 rounded-lg bg-gray-800 p-6 shadow md:flex-row">
@@ -138,7 +143,11 @@
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
 				<p>{m['dfu.step.set_update_mode']({ tracker: selectedDevice })}</p>
-				<p class="text-sm opacity-70">{m['dfu.step_note.set_update_mode']()}</p>
+				<p class="text-sm opacity-70">
+					{selectedDevice === Device.HaritoraX2
+						? m['dfu.step_note.set_update_mode']().replace('HaritoraXW-Update', 'HaritoraX2-Update')
+						: m['dfu.step_note.set_update_mode']()}
+				</p>
 			</div>
 			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSetUpdateMode}>
 				{m['dfu.button.set_update_mode']()}
@@ -148,7 +157,14 @@
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
 				<p>{m['dfu.step.select_update_mode']({ tracker: selectedDevice })}</p>
-				<p class="text-sm opacity-70">{m['dfu.step_note.select_update_mode']()}</p>
+				<p class="text-sm opacity-70">
+					{selectedDevice === Device.HaritoraX2
+						? m['dfu.step_note.select_update_mode']().replace(
+								'HaritoraXW-Update',
+								'HaritoraX2-Update'
+							)
+						: m['dfu.step_note.select_update_mode']()}
+				</p>
 			</div>
 			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSelectDFUDevice}>
 				{m['dfu.button.select_update_mode']()}
@@ -169,7 +185,7 @@
 			</button>
 		</div>
 		<hr class="hr" />
-		<div class="flex w-full flex-col items-center justify-center gap-4">
+		<div class="flex w-full flex-col items-center justify-center gap-4 text-center">
 			<p>{m['dfu.status.status']({ status: updateStatus })}</p>
 			<Progress value={updateProgress > 0 ? updateProgress : null} />
 		</div>
