@@ -29,13 +29,13 @@ const haritorax2Versions: FirmwareVersion[] = [
 	{ version: 'ce48200', date: '2024-12-17', filename: 'mc4seb-2-ce48200.zip', notes: 'Unknown' },
 	{ version: 'c796754', date: '2025-01-08', filename: 'mc4seb-2-c796754.zip', notes: 'Unknown' },
 	{
-		version: '9648bfd (most likely 1.0.5)',
+		version: '9648bfd (likely 1.0.5)',
 		date: '2025-01-21',
 		filename: 'mc4seb-2-9648bfd.zip',
 		notes: 'Unknown'
 	},
 	{
-		version: 'b9b09e9 (most likely 1.0.14)',
+		version: 'b9b09e9 (likely 1.0.14)',
 		date: '2025-01-23',
 		filename: 'mc4seb-2-b9b09e9.zip',
 		notes: 'Unknown'
