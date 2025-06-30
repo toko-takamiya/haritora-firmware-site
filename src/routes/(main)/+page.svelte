@@ -6,6 +6,8 @@
 	import { firmwareUpdater } from '$lib/store/updater';
 	import Icon from '@iconify/svelte';
 	import { Progress } from '@skeletonlabs/skeleton-svelte';
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	let selectedDevice = $state(Device.HaritoraX2);
 	let firmwareList = $derived(firmwareVersions[selectedDevice]);
@@ -108,6 +110,21 @@
 			isUpdating = false;
 		}
 	}
+
+	// check for Web Bluetooth support on page load
+	onMount(async () => {
+		console.log(`Browser: ${browser}`);
+		
+		if (!browser) return;
+
+		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
+			console.log('Bluetooth API supported: No');
+			addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+			return;
+		} else {
+			console.log('Bluetooth API supported: Yes');
+		}
+	});
 </script>
 
 <svelte:head>
@@ -160,7 +177,7 @@
 					/>
 					<button
 						class="btn-icon variant-ghost"
-						onclick={() => addToast('info', m['settings.packet_send_delay_description'](), false)}
+						onclick={() => addToast('info', m['toasts.packet_send_delay_description'](), false)}
 					>
 						<Icon icon="mdi:information-outline" />
 					</button>
@@ -175,7 +192,7 @@
 					/>
 					<button
 						class="btn-icon variant-ghost"
-						onclick={() => addToast('info', m['settings.show_all_versions_description'](), false)}
+						onclick={() => addToast('info', m['toasts.show_all_versions_description'](), false)}
 					>
 						<Icon icon="mdi:information-outline" />
 					</button>
