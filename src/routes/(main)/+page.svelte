@@ -110,6 +110,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>SlimeTora: DFU</title>
+</svelte:head>
+
 <!-- TODO: add button to check version -->
 <div class="mx-auto w-full max-w-2xl space-y-6">
 	<!-- Device and firmware selection -->
