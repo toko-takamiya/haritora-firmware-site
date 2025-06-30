@@ -9,8 +9,8 @@
 		"settings": "Settings",
 		"packet_send_delay": "Packet send delay (ms)",
 		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully.",
-		"show_all_versions": "Show undocumented versions",
-		"show_all_versions_description": "Show all firmware versions, including those that are not documented or officially released."
+		"show_all_versions": "Show untested versions",
+		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!"
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
@@ -29,7 +29,7 @@
 		},
 		"button": {
 			"set_update_mode": "Set to update mode",
-			"select_update_mode": "Start updating",
+			"select_update_mode": "Select DFU device",
 			"flash": "Flash firmware"
 		},
 		"progress": {

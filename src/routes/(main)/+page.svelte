@@ -2,7 +2,9 @@
 	import { m } from '$lib/paraglide/messages.js';
 	import { packetSendDelay, showAllVersions, type FirmwareVersion } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
+	import { addToast } from '$lib/store/ToastProvider';
 	import { firmwareUpdater } from '$lib/store/updater';
+	import Icon from '@iconify/svelte';
 	import { Progress } from '@skeletonlabs/skeleton-svelte';
 
 	let selectedDevice = $state(Device.HaritoraX2);
@@ -152,6 +154,12 @@
 						class="input input-sm w-20"
 						bind:value={$packetSendDelay}
 					/>
+					<button
+						class="btn-icon variant-ghost"
+						onclick={() => addToast('info', m['settings.packet_send_delay_description'](), false)}
+					>
+						<Icon icon="mdi:information-outline" />
+					</button>
 				</div>
 				<div class="flex items-center gap-2">
 					<input
@@ -163,6 +171,12 @@
 					<label for="show-undocumented" class="text-sm"
 						>{m['settings.show_all_versions']?.() ?? 'Show undocumented versions'}</label
 					>
+					<button
+						class="btn-icon variant-ghost"
+						onclick={() => addToast('info', m['settings.show_all_versions_description'](), false)}
+					>
+						<Icon icon="mdi:information-outline" />
+					</button>
 				</div>
 			</div>
 		</div>

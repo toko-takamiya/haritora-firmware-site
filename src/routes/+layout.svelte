@@ -1,11 +1,17 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { currentLocale, packetSendDelay, showAllVersions } from '$lib/store';
+	import { currentLocale } from '$lib/store';
 	import '../app.css';
-	import { getLocale } from '$lib/paraglide/runtime';
+	import Toast from '$lib/components/Toast.svelte';
+	import { type Toast as ToastType, toasts } from '$lib/store/ToastProvider';
 
 	let { children } = $props();
+
+	let toastList = $state<ToastType[]>([]);
+	toasts.subscribe((value) => {
+		toastList = value as ToastType[];
+	});
 </script>
 
 <!-- #key used so we can force re-render when locale updates -->
@@ -22,3 +28,11 @@
 		<Footer />
 	</div>
 {/key}
+
+<div class="fixed right-0 bottom-28 z-50 flex flex-col-reverse gap-4 p-4 md:bottom-0">
+	{#each toastList as { id, type, message, durations }}
+		<div class="flex justify-end">
+			<Toast {id} {type} {message} {durations} />
+		</div>
+	{/each}
+</div>
