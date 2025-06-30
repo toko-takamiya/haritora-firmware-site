@@ -84,11 +84,9 @@ export class FirmwareUpdater {
 	constructor() {
 		if (browser) {
 			// adding the delay helps with lower-end/cheap BT adapters - it will make it slower, but will actually succeed!
-			const delay = get(packetSendDelay)
-			if (delay === -1)
-				this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth)
-			else
-				this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth, delay)
+			const delay = get(packetSendDelay);
+			if (delay === -1) this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth);
+			else this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth, delay);
 
 			this.dfu.addEventListener('log', (event) => {
 				console.log(`DFU Log: ${event.message}`);

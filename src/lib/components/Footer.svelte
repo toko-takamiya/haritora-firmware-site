@@ -22,7 +22,7 @@
 			}}
 		>
 			<option value="en">English</option>
-			<option value="ja">Japanese</option>
+			<!-- <option value="ja">Japanese</option> -->
 		</select>
 	</div>
 </footer>

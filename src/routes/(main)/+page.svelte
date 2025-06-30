@@ -114,7 +114,7 @@
 	// check for Web Bluetooth support on page load
 	onMount(async () => {
 		console.log(`Browser: ${browser}`);
-		
+
 		if (!browser) return;
 
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
@@ -276,5 +276,8 @@
 
 	<p class="mt-10 text-center text-sm opacity-70">
 		{m['disclaimer']()}
+	</p>
+	<p class="text-center text-sm opacity-70">
+		{__APP_VERSION__} - {__COMMIT_HASH__}
 	</p>
 </div>

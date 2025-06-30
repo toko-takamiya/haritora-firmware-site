@@ -1,7 +1,7 @@
 // HAHA STOLEN ONCE AGAIN FROM https://github.com/VERT-sh/VERT (because i wrote it)
-import { writable } from "svelte/store";
+import { writable } from 'svelte/store';
 
-export type ToastType = "success" | "error" | "info" | "warning";
+export type ToastType = 'success' | 'error' | 'info' | 'warning';
 
 export interface Toast {
 	id: number;
@@ -23,14 +23,14 @@ function addToast(
 	type: ToastType,
 	message: string,
 	disappearing?: boolean,
-	durations?: { enter: number; stay: number; exit: number },
+	durations?: { enter: number; stay: number; exit: number }
 ) {
 	const id = toastId++;
 
 	durations = durations ?? {
 		enter: 300,
 		stay: disappearing || disappearing === undefined ? 5000 : 86400000, // 24h cause why not
-		exit: 500,
+		exit: 500
 	};
 
 	const newToast: Toast = {
@@ -38,7 +38,7 @@ function addToast(
 		type,
 		message,
 		disappearing: disappearing ?? true,
-		durations,
+		durations
 	};
 	toasts.update((currentToasts) => [...currentToasts, newToast]);
 
@@ -46,16 +46,14 @@ function addToast(
 		() => {
 			removeToast(id);
 		},
-		durations.enter + durations.stay + durations.exit,
+		durations.enter + durations.stay + durations.exit
 	);
 
 	return id;
 }
 
 function removeToast(id: number) {
-	toasts.update((currentToasts) =>
-		currentToasts.filter((toast) => toast.id !== id),
-	);
+	toasts.update((currentToasts) => currentToasts.filter((toast) => toast.id !== id));
 }
 
 export { toasts, addToast, removeToast };

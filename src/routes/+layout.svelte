@@ -44,7 +44,7 @@
 	<!-- Open Graph Tags -->
 	<meta content="SlimeTora: Haritora Firmware Website" property="og:title" />
 	<meta content="A website to update your Haritora devices through WebBluetooth and WebUSB." property="og:description" />
-	<meta content="https://" property="og:url" />
+	<meta content="https://dfu.slimetora.dev" property="og:url" />
 	<meta content="https://dfu.slimetora.dev/logo.png" property="og:image" />
 	<meta content="#663499" data-react-helmet="true" name="theme-color" />
 </svelte:head>
