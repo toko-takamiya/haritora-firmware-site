@@ -1,8 +1,9 @@
-import type { FirmwareVersion } from './index';
+import { packetSendDelay, type FirmwareVersion } from './index';
 import CRC32 from 'crc-32';
 import JSZip, { type JSZipObject } from 'jszip';
 import SecureDfu from 'web-bluetooth-dfu';
 import { browser } from '$app/environment';
+import { get } from 'svelte/store';
 
 interface DFUProgress {
 	object: string;
@@ -82,9 +83,12 @@ export class FirmwareUpdater {
 
 	constructor() {
 		if (browser) {
-			// adding the delay helps with lower-end/cheap BT adapters - it will make it a bit slower, but will actually succeed!
-			// TODO: add option to customize this delay (e.g. none for fastest as possible but more likely to fail, then like 5 or 10 for more reliable but slower)
-			this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth, 1);
+			// adding the delay helps with lower-end/cheap BT adapters - it will make it slower, but will actually succeed!
+			const delay = get(packetSendDelay)
+			if (delay === -1)
+				this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth)
+			else
+				this.dfu = new SecureDfu(CRC32.buf, navigator.bluetooth, delay)
 
 			this.dfu.addEventListener('log', (event) => {
 				console.log(`DFU Log: ${event.message}`);

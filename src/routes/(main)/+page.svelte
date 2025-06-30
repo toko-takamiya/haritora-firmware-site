@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { type FirmwareVersion } from '$lib/store';
+	import { packetSendDelay, showAllVersions, type FirmwareVersion } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { firmwareUpdater } from '$lib/store/updater';
 	import { Progress } from '@skeletonlabs/skeleton-svelte';
@@ -18,7 +18,8 @@
 	// TODO: use connection_lost and cancelled
 
 	$effect(() => {
-		selectedFirmware = firmwareList[0];
+		// TODO: don't automatically change selectedFirmware dropdown when simply toggling the "show all versions" option
+		selectedFirmware = $showAllVersions ? firmwareList[0] : firmwareList.find((fw) => !fw.untested);
 	});
 
 	if (firmwareUpdater) {
@@ -110,23 +111,60 @@
 <!-- TODO: add button to check version -->
 <div class="mx-auto w-full max-w-2xl space-y-6">
 	<!-- Device and firmware selection -->
-	<div class="flex flex-col gap-6 rounded-lg bg-gray-800 p-6 shadow md:flex-row">
-		<div class="flex-1">
-			<label class="mb-2 block font-semibold" for="device-select">{m['select.device']()}</label>
-			<select id="device-select" class="select w-full" bind:value={selectedDevice}>
-				{#each Object.values(Device) as device}
-					<option value={device}>{device}</option>
-				{/each}
-			</select>
+	<div class="flex flex-col flex-wrap gap-6 rounded-lg bg-gray-800 p-6 shadow">
+		<!-- Selection row -->
+		<div class="flex w-full min-w-0 flex-row gap-6">
+			<div class="min-w-0 flex-1">
+				<label class="mb-2 block font-semibold" for="device-select">{m['select.device']()}</label>
+				<select id="device-select" class="select w-full" bind:value={selectedDevice}>
+					{#each Object.values(Device) as device}
+						<option value={device}>{device}</option>
+					{/each}
+				</select>
+			</div>
+			<div class="min-w-0 flex-1">
+				<label class="mb-2 block font-semibold" for="firmware-select"
+					>{m['select.firmware']()}</label
+				>
+				<select id="firmware-select" class="select w-full" bind:value={selectedFirmware}>
+					{#each firmwareList as fw}
+						<!-- hide any "unknown" versions if showAllVersions is disabled (e.g. is a commit hash) -->
+						{#if $showAllVersions || !fw.untested}
+							<option value={fw}
+								>{m['firmware.version']({ version: fw.version, date: fw.date })}</option
+							>
+						{/if}
+					{/each}
+				</select>
+			</div>
 		</div>
-		<div class="flex-1">
-			<label class="mb-2 block font-semibold" for="firmware-select">{m['select.firmware']()}</label>
-			<select id="firmware-select" class="select w-full" bind:value={selectedFirmware}>
-				{#each firmwareList as fw}
-					<option value={fw}>{m['firmware.version']({ version: fw.version, date: fw.date })}</option
+		<hr class="hr" />
+		<!-- Settings row -->
+		<div class="flex w-full min-w-[250px] flex-col">
+			<p class="mb-2 block font-semibold">{m['settings.settings']?.() ?? 'Settings'}</p>
+			<div class="flex flex-row justify-between gap-2">
+				<div class="flex items-center gap-2">
+					<span class="text-sm">{m['settings.packet_send_delay']?.() ?? 'Packet send delay'}:</span>
+					<input
+						type="number"
+						min="-1"
+						placeholder="1"
+						class="input input-sm w-20"
+						bind:value={$packetSendDelay}
+					/>
+				</div>
+				<div class="flex items-center gap-2">
+					<input
+						type="checkbox"
+						id="show-undocumented"
+						class="checkbox"
+						bind:checked={$showAllVersions}
+					/>
+					<label for="show-undocumented" class="text-sm"
+						>{m['settings.show_all_versions']?.() ?? 'Show undocumented versions'}</label
 					>
-				{/each}
-			</select>
+				</div>
+			</div>
 		</div>
 	</div>
 

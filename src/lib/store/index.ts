@@ -8,6 +8,15 @@ export function updateLocale(newLocale) {
 	currentLocale.set(newLocale);
 }
 
+export const packetSendDelay = writable(1);
+export const showAllVersions = writable(false);
+
+export function isSemVersion(version: string): boolean {
+	// check if version matches semantic versioning (e.g. 1.0.1, 1.0.21)
+	const semverRegex = /^\d+\.\d+\.\d+$/;
+	return semverRegex.test(version);
+}
+
 /*
  * Firmware objects
  */
@@ -17,6 +26,7 @@ export type FirmwareVersion = {
 	date: string;
 	filename: string;
 	notes: string;
+	untested?: boolean;
 };
 
 export type FirmwareVersionsMap = {
@@ -32,7 +42,7 @@ const haritorax2Versions: FirmwareVersion[] = [
 		date: '2024-12-11',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-095fdce.zip`,
 		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.',
 	},
 	{
 		version: '1.0.3',

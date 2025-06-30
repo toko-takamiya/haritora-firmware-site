@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { currentLocale } from '$lib/store';
+	import { currentLocale, packetSendDelay, showAllVersions } from '$lib/store';
 	import '../app.css';
+	import { getLocale } from '$lib/paraglide/runtime';
 
 	let { children } = $props();
 </script>

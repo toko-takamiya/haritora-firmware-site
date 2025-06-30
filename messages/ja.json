@@ -1,9 +1,16 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your trackers. You agree to use this tool at your own risk.",
+	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.",
 	"select": {
 		"device": "Select your device",
 		"firmware": "Select firmware version"
+	},
+	"settings": {
+		"settings": "Settings",
+		"packet_send_delay": "Packet send delay (ms)",
+		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully.",
+		"show_all_versions": "Show undocumented versions",
+		"show_all_versions_description": "Show all firmware versions, including those that are not documented or officially released."
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
@@ -16,8 +23,8 @@
 			"flash": "Step 3: Flash the selected firmware to your {tracker} tracker."
 		},
 		"step_note": {
-			"set_update_mode": "This will turn your tracker into DFU mode, letting the trackers appear as something similar to \"HaritoraXW-UPDATE\".",
-			"select_update_mode": "Select the tracker that is now in update mode. It should appear as something similar to \"HaritoraXW-UPDATE\".",
+			"set_update_mode": "This will turn your tracker into DFU (Device Firmware Update) mode, letting the trackers appear as \"HaritoraXW-Update\".",
+			"select_update_mode": "Select the tracker that is now in DFU (Device Firmware Update) mode. It should appear as \"HaritoraXW-Update\".",
 			"flash": "This will flash the selected firmware to your tracker."
 		},
 		"button": {
@@ -32,20 +39,22 @@
 		"status": {
 			"waiting": "waiting for user...",
 			"error": "Error flashing firmware, please try again.",
-			"selecting": "Selecting tracker in update mode...",
-			"flashing": "Flashing firmware to tracker...",
+			"selecting": "Selecting device in update mode...",
+			"updating": "Flashing firmware... ({current}/{total} bytes, {progress}%)",
 			"completed": "Firmware flash completed successfully!",
-			"status": "Status: {status}",
-			"please_select": "please select a device and firmware first",
-			"firmware_updater_not_initialized": "firmware updater is not initialized",
+			"cancelled": "firmware update cancelled.",
+			"device_not_found": "No compatible device found.",
+			"connection_lost": "connection to device lost during update.",
+			"invalid_firmware": "The selected firmware file is invalid or corrupted.",
 			"setting_update_mode": "setting device to update mode...",
 			"set_update_mode": "device set to update mode successfully!",
 			"selecting_dfu": "selecting DFU device...",
 			"dfu_selected": "DFU device selected and ready to flash.",
 			"starting_update": "starting firmware update...",
-			"connection_lost": "connection to device lost during update.",
-			"cancelled": "firmware update cancelled.",
-			"firmware_completed": "firmware update completed!"
+			"firmware_completed": "firmware update completed!",
+			"please_select": "please select a device and firmware first",
+			"firmware_updater_not_initialized": "firmware updater is not initialized",
+			"status": "Status: {status}"
 		},
 		"debug_log": "Debug log:"
 	}

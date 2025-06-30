@@ -5,6 +5,13 @@
 		"device": "Select your device",
 		"firmware": "Select firmware version"
 	},
+	"settings": {
+		"settings": "Settings",
+		"packet_send_delay": "Packet send delay (ms)",
+		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully.",
+		"show_all_versions": "Show undocumented versions",
+		"show_all_versions_description": "Show all firmware versions, including those that are not documented or officially released."
+	},
 	"firmware": {
 		"version": "v{version} ({date})",
 		"release_notes": "Release Notes"
