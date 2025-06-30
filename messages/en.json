@@ -8,7 +8,7 @@
 	"settings": {
 		"settings": "Settings",
 		"packet_send_delay": "Packet send delay (ms)",
-		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully.",
+		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully. Using -1 disables it entirely.",
 		"show_all_versions": "Show untested versions",
 		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!"
 	},

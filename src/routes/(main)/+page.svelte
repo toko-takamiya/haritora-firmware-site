@@ -115,7 +115,7 @@
 	<!-- Device and firmware selection -->
 	<div class="flex flex-col flex-wrap gap-6 rounded-lg bg-gray-800 p-6 shadow">
 		<!-- Selection row -->
-		<div class="flex w-full min-w-0 flex-row gap-6">
+		<div class="flex w-full min-w-0 flex-col gap-6 md:flex-row">
 			<div class="min-w-0 flex-1">
 				<label class="mb-2 block font-semibold" for="device-select">{m['select.device']()}</label>
 				<select id="device-select" class="select w-full" bind:value={selectedDevice}>
@@ -143,10 +143,10 @@
 		<hr class="hr" />
 		<!-- Settings row -->
 		<div class="flex w-full min-w-[250px] flex-col">
-			<p class="mb-2 block font-semibold">{m['settings.settings']?.() ?? 'Settings'}</p>
-			<div class="flex flex-row justify-between gap-2">
+			<p class="mb-2 block font-semibold">{m['settings.settings']?.()}</p>
+			<div class="flex flex-col justify-between gap-2 md:flex-row">
 				<div class="flex items-center gap-2">
-					<span class="text-sm">{m['settings.packet_send_delay']?.() ?? 'Packet send delay'}:</span>
+					<span class="text-sm">{m['settings.packet_send_delay']?.()}:</span>
 					<input
 						type="number"
 						min="-1"
@@ -162,15 +162,13 @@
 					</button>
 				</div>
 				<div class="flex items-center gap-2">
+					<label for="show-untested" class="text-sm">{m['settings.show_all_versions']?.()}:</label>
 					<input
 						type="checkbox"
-						id="show-undocumented"
+						id="show-untested"
 						class="checkbox"
 						bind:checked={$showAllVersions}
 					/>
-					<label for="show-undocumented" class="text-sm"
-						>{m['settings.show_all_versions']?.() ?? 'Show undocumented versions'}</label
-					>
 					<button
 						class="btn-icon variant-ghost"
 						onclick={() => addToast('info', m['settings.show_all_versions_description'](), false)}

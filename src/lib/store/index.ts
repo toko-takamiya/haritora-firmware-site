@@ -42,7 +42,7 @@ const haritorax2Versions: FirmwareVersion[] = [
 		date: '2024-12-11',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-095fdce.zip`,
 		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.',
+			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
 	},
 	{
 		version: '1.0.3',
