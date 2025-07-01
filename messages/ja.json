@@ -1,0 +1,64 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"disclaimer": "このツールは自己責任で使用することに同意してください。お手持ちの機器のファームウェアのアップグレード/ダウングレードによって生じたいかなる損害についても、開発者は責任を負いません。 ",
+	"select": {
+		"device": "デバイスを選択",
+		"firmware": "ファームウェアのバージョンを選択"
+	},
+	"settings": {
+		"settings": "設定",
+		"packet_send_delay": "パケット送信遅延時間(ms)",
+		"show_all_versions": "未テストのバージョンを表示"
+	},
+	"firmware": {
+		"version": "v{version} ({date})",
+		"release_notes": "リリースノート"
+	},
+	"dfu": {
+		"step": {
+			"set_update_mode": "ステップ1: {tracker} トラッカーをDFUモードにします。",
+			"select_update_mode": "ステップ2: {tracker} トラッカーを再度選択します。",
+			"flash": "ステップ3： 選択したファームウェアを {tracker} トラッカーに書き込みます。"
+		},
+		"step_note": {
+			"set_update_mode": "これにより、トラッカーはDFU（Device Firmware Update）モードになり、\"HaritoraXW-Update\"と表示されます。",
+			"select_update_mode": "DFU（デバイスファームウェアアップデート）モードになったトラッカーを選択します。 \"HaritoraXW-Update\"と表示されるはずです。",
+			"flash": "これにより、選択したファームウェアがトラッカーに書き込まれます。"
+		},
+		"button": {
+			"set_update_mode": "更新モードに設定",
+			"select_update_mode": "DFUデバイスを選択",
+			"flash": "ファームウェア書き込み"
+		},
+		"progress": {
+			"status": "ステータス: {status}",
+			"progress": "進捗: {progress}%"
+		},
+		"status": {
+			"waiting": "ユーザー待ち...",
+			"error": "ファームウェアの書き込みにエラーが発生しました。",
+			"selecting": "アップデートモードでデバイスを選択...",
+			"updating": "ファームウェアの書き込み... ({current}/{total} bytes, {progress}%)",
+			"completed": "ファームウェアの書き込みが正常に完了しました！",
+			"cancelled": "ファームウェアのアップデートがキャンセルされた。",
+			"device_not_found": "互換性のあるデバイスが見つかりません。",
+			"connection_lost": "アップデート中にデバイスへの接続が失われました。",
+			"invalid_firmware": "選択したファームウェアのファイルが無効か破損しています。",
+			"setting_update_mode": "デバイスをDFUモードに設定する",
+			"set_update_mode": "デバイスが正常にDFUモードに設定されました！",
+			"selecting_dfu": "DFUデバイスの選択...",
+			"dfu_selected": "DFUデバイスが選択され、フラッシュする準備ができています。",
+			"starting_update": "ファームウェアのアップデートを開始",
+			"firmware_completed": "ファームウェアのアップデートが完了しました！",
+			"please_select": "最初にデバイスとファームウェアを選択してください",
+			"firmware_updater_not_initialized": "ファームウェア・アップデータが初期化されません",
+			"status": "ステータス: {status}"
+		},
+		"debug_log": "デバッグログ:"
+	},
+	"toasts": {
+		"show_all_versions_description": "（非推奨）十分にテストされていないものも含め、すべてのファームウェアバージョンを表示します。",
+		"packet_send_delay_description": "デバイスにパケットを送信する間の遅延。 遅延が大きいほど、データの送信は遅くなりますが、デバイスのアップデートが成功する可能性が高くなります。 1を使用すると、完全に無効になります。",
+		"web_bluetooth_not_supported": "このブラウザでは、Web Bluetoothはサポートされていません（またはグローバルで無効になっています）。 デバイスのファームウェアを更新するには、Chrome、Edge、または他のChromiumベースのブラウザを使用してください。"
+	}
+}
