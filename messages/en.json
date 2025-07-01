@@ -60,5 +60,44 @@
 		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!",
 		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully. Using -1 disables it entirely.",
 		"web_bluetooth_not_supported": "Web Bluetooth is not supported (or disabled globally) in this browser. Please use Chrome, Edge, or another Chromium-based browser to update your device firmware."
+	},
+	"faq": {
+		"title": "Frequently Asked Questions (FAQ)",
+		"what_is_this_website": {
+			"title": "What is this website?",
+			"description": "This is a website that allows you to update the firmware on many of Shiftall's products so you do not need to download the official app. This allows you to update your devices without the official app, allowing mobile users to update once again! This also includes a major fix to be more reliable, allowing even lower-end bluetooth adapters to update successfully!"
+		},
+		"what_is_supported": {
+			"title": "What is supported?",
+			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them."
+		},
+		"how_does_it_work": {
+			"title": "How does it work?",
+			"description": "The devices use the nRF52 platform and can update via BLE or serial/USB, so this uses Web Bluetooth to update the HaritoraX Wireless and HaritoraX 2, with WebUSB for the GX(6/2) dongles (when it's completed)."
+		},
+		"how_can_i_contribute": {
+			"title": "How can I contribute?",
+			"description": "You can contribute by reporting issues, suggesting features, or helping with translations. You can also help by providing firmware files that aren't on the site yet for any devices. Please check the {github_link} page (or {discord_link}) to get started.",
+			"github_text": "GitHub",
+			"discord_text": "Discord"
+		},
+		"how_did_you_gather_firmware": {
+			"title": "How did you gather the firmware files?",
+			"description": "The firmware files were gathered from the official HaritoraX Wireless DFU {official_website} and {shiftall_vr_manager} (including the {playtest_link} and early beta tests before Steam). Since Shiftall VR Manager is on Steam, we can download old versions at any time (through the {depot_link} and {manifests_link}) which include the firmware files of the HaritoraX Wireless, HaritoraX 2, and the GX(6/2) dongles. If you have any firmware files not on this site, please consider {contributing_link}.",
+			"website_text": "website",
+			"shiftall_vr_manager_text": "Shiftall VR Manager",
+			"playtest_text": "playtest",
+			"depot_text": "depot",
+			"manifests_text": "manifests",
+			"contributing_text": "contributing"
+		},
+		"why_did_it_not_work": {
+			"title": "Why did it not work? // Why is the progress jumping between percentages?",
+			"description": "By default, we set up a default that tries to be more reliable when we send data to the trackers at the cost of some performance. If it still fails or does not work as expected, try increasing the \"Packet send delay\" option in settings by a small amount (5, 10, etc) - this will make updating slower but more reliable."
+		},
+		"web_bluetooth_error": {
+			"title": "Why do I get a \"web bluetooth is not supported\" error?",
+			"description": "This means that your browser does not support Web Bluetooth or it is not enabled. Please ensure you are using a supported chromium-based browser (like Chrome or Edge). Some browsers like Brave disable Web Bluetooth by default and require changing browser flags (chrome://flags) or do not support it at all (Firefox)."
+		}
 	}
 }
