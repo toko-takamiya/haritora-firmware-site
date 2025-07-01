@@ -110,10 +110,9 @@ const haritorax2Versions: FirmwareVersion[] = [
 	},
 	{
 		version: '1.0.27',
-		date: '2025-06-28',
+		date: '2025-06-30', // date from official manual
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-ab87abb.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: 'Fixed a rare issue where the GX dongle connection could be unexpectedly disconnected.'
 	}
 ];
 
