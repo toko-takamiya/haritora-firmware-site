@@ -3,6 +3,7 @@
 
 import { getLocale, setLocale } from '$lib/paraglide/runtime';
 import { writable } from 'svelte/store';
+import { m } from '$lib/paraglide/messages.js';
 
 export const currentLocale = writable(getLocale());
 
@@ -39,80 +40,73 @@ export type FirmwareVersionsMap = {
 const urlPrefix = '/firmware'; // URL prefix for firmware files - could be served from a CDN
 
 // assume all "unknown" versions (commit hashes / "unknown" notes) have dates from VR Manager's Steam depot
+// notes are as-is & taken directly from the manual
 const haritorax2Versions: FirmwareVersion[] = [
 	{
 		version: '1.0.1',
 		date: '2024-12-11',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-095fdce.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.3',
 		date: '2024-12-17',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-ce48200.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.7',
 		date: '2025-01-08',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-c796754.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.10',
 		date: '2025-01-21',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-9648bfd.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.14',
 		date: '2025-01-23',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-b9b09e9.zip`,
-		notes: 'Minor update.'
+		notes: m['firmware.versions.mc4seb.1.0.14']()
 	},
 	{
 		version: '1.0.15',
 		date: '2025-01-30',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-b645dee.zip`,
-		notes:
-			'LiDAR sensor capture angle improved (wider).\r\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\r\nOther minor modifications.'
+		notes: m['firmware.versions.mc4seb.1.0.15']()
 	},
 	{
 		version: '1.0.19',
 		date: '2025-02-27',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-a85a6e5.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.21',
 		date: '2025-03-24',
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-c4d6efb.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.24',
 		date: '2025-05-12', // date from official manual
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-b475ca6.zip`,
-		notes:
-			'Fixed a rare issue where the power could not be turned on without a forced shutdown.\r\nFixed a problem where the red LED would flash rapidly just before charging was complete.\r\nOther minor fixes'
+		notes: m['firmware.versions.mc4seb.1.0.24']()
 	},
 	{
 		version: '1.0.25',
 		date: '2025-05-19', // date from official manual
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-3a1129c.zip`,
-		notes: 'Fixed an issue where the red LED would remain on even after charging was complete.'
+		notes: m['firmware.versions.mc4seb.1.0.25']()
 	},
 	{
 		version: '1.0.27',
 		date: '2025-06-30', // date from official manual
 		filename: `${urlPrefix}/mc4seb/mc4seb-2-ab87abb.zip`,
-		notes: 'Fixed a rare issue where the GX dongle connection could be unexpectedly disconnected.'
+		notes: m['firmware.versions.mc4seb.1.0.27']()
 	}
 ];
 
@@ -121,35 +115,31 @@ const haritoraxWirelessVersions: FirmwareVersion[] = [
 		version: '1.0.22',
 		date: '2023-11-30', // date from official manual
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20231117_e53a9ce.zip`,
-		notes:
-			'Fixed a bug that the settings of attach location(CHEST, HIP, etc.) were rewritten.\r\nOther minor modifications.'
+		notes: m['firmware.versions.mc3s.1.0.22']()
 	},
 	{
 		version: '1.0.25',
 		date: '2024-07-28', // date from official manual
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20240613_e1dd725.zip`,
-		notes: 'No change in functionality or performance under normal use.'
+		notes: m['firmware.versions.mc3s.1.0.25']()
 	},
 	{
 		version: '1.0.26',
 		date: '2024-08-01', // date from file name
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20240801_ea3497b.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.27',
 		date: '2025-01-20', // date from file name
 		filename: `${urlPrefix}/mc3s/mc3_sensor_mc3_bootloader_20250120_68aced4.zip`,
-		notes:
-			'Unknown\r\n\r\nThis is undocumented in the official manual, so no information is known about this version.'
+		notes: m['firmware.versions.unknown']()
 	},
 	{
 		version: '1.0.28',
 		date: '2025-06-03', // date from official manual
 		filename: `${urlPrefix}/mc3s/mc3_sensor_20250430_5398332.zip`,
-		notes:
-			'It is now possible to change the attachment point for all previously sold “HaritoraX Wireless Elbow Expansion Sets.\r\nFor example, you can change from Elbow → Foot or Elbow → Wrist.\r\n\r\nOther minor improvements.'
+		notes: m['firmware.versions.mc3s.1.0.28']()
 	}
 ];
 
@@ -160,19 +150,19 @@ const haritoraxWirelessVersions: FirmwareVersion[] = [
 // 		version: '1.0.17',
 // 		date: '2023-10-30', // date from official manual
 // 		filename: `${urlPrefix}/mc3s_dongle/mc3_dongle_20230927_477d506.zip`,
-// 		notes: 'Firmware on initial shipment'
+// 		notes: m['firmware.versions.mc3s_dongle.1.0.17']()
 // 	},
 // 	{
 // 		version: '1.0.19',
 // 		date: '2023-10-31', // date from official manual
 // 		filename: `${urlPrefix}/mc3s_dongle/mc3_dongle_20231005_fece09a.zip`,
-// 		notes: 'Fixed communication-related problems.'
+// 		notes: m['firmware.versions.mc3s_dongle.1.0.19']()
 // 	},
 // 	{
 // 		version: '1.0.26',
 // 		date: '2025-01-30', // date from official manual
 // 		filename: `${urlPrefix}/mc3s_dongle/mc3_dongle_mc3_bootloader_20240801_ea3497b.zip`,
-// 		notes: 'Compatible with HaritoraX 2.'
+// 		notes: m['firmware.versions.mc3s_dongle.1.0.26']()
 // 	}
 // ];
 

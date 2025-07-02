@@ -1,6 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.",
+	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.\nThis is an unofficial tool not affiliated with Shiftall Inc.",
 	"select": {
 		"device": "Select your device",
 		"firmware": "Select firmware version"
@@ -12,7 +12,27 @@
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
-		"release_notes": "Release Notes"
+		"release_notes": "Release Notes",
+		"versions": {
+			"unknown": "Unknown\n\nThis is undocumented in the official manual, so no information is known about this version.",
+			"mc4seb": {
+				"1.0.14": "Minor update.",
+				"1.0.15": "LiDAR sensor capture angle improved (wider).\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\nOther minor modifications.",
+				"1.0.24": "Fixed a rare issue where the power could not be turned on without a forced shutdown.\nFixed a problem where the red LED would flash rapidly just before charging was complete.\nOther minor fixes",
+				"1.0.25": "Fixed an issue where the red LED would remain on even after charging was complete.",
+				"1.0.27": "Fixed a rare issue where the GX dongle connection could be unexpectedly disconnected."
+			},
+			"mc3s": {
+				"1.0.22": "Fixed a bug that the settings of attach location(CHEST, HIP, etc.) were rewritten.\nOther minor modifications.",
+				"1.0.25": "No change in functionality or performance under normal use.",
+				"1.0.28": "It is now possible to change the attachment point for all previously sold “HaritoraX Wireless Elbow Expansion Sets.\nFor example, you can change from Elbow → Foot or Elbow → Wrist.\n\nOther minor improvements."
+			},
+			"mc3s_dongle": {
+				"1.0.17": "Firmware on initial shipment.",
+				"1.0.19": "Fixed communication-related problems.",
+				"1.0.26": "Compatible with HaritoraX 2."
+			}
+		}
 	},
 	"dfu": {
 		"step": {

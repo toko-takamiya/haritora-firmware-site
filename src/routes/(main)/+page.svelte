@@ -262,7 +262,7 @@
 		</div>
 	</div>
 
-	<!-- Debug log (optional) -->
+	<!-- Debug log -->
 	{#if logMessages.length > 0}
 		<div class="rounded-lg bg-gray-800 p-6 shadow">
 			<strong class="mb-2 block">Debug Log:</strong>
