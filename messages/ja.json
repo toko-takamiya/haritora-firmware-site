@@ -1,6 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"disclaimer": "このツールは自己責任で使用することに同意してください。お手持ちの機器のファームウェアのアップグレード/ダウングレードによって生じたいかなる損害についても、開発者は責任を負いません。 ",
+	"disclaimer": "このツールは自己責任で使用することに同意してください。\nお手持ちの機器のファームウェアのアップグレード/ダウングレードによって生じたいかなる損害についても、開発者は責任を負いません。\n株式会社Shiftallとは無関係の非公式ツールです。",
 	"select": {
 		"device": "デバイスを選択",
 		"firmware": "ファームウェアのバージョンを選択"
@@ -12,7 +12,27 @@
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
-		"release_notes": "リリースノート"
+		"release_notes": "リリースノート",
+		"versions": {
+			"unknown": "Unknown\n\nこれは公式マニュアルに文書化されていないため、このバージョンに関する情報はありません。",
+			"mc4seb": {
+				"1.0.14": "マイナーアップデート。",
+				"1.0.15": "LiDARセンサーの捕捉角度が改善されました（広くなりました）。\nGXドングルモードでオートパワーオフが機能しない場合がある問題を修正しました。\nその他の細かい修正。",
+				"1.0.24": "強制シャットダウンしないと電源が入らないという稀な問題を修正しました。\n充電完了直前に赤色LEDが急速に点滅する不具合を修正しました。\nその他の細かい修正。",
+				"1.0.25": "充電完了後も赤色LEDが点灯したままになる問題を修正しました。",
+				"1.0.27": "まれにGXドングルの接続が予期せず切断されることがある問題を修正しました。"
+			},
+			"mc3s": {
+				"1.0.22": "アタッチする場所（CHEST、HIPなど）の設定が書き換えられてしまう不具合を修正しました。\nその他の細かい修正。",
+				"1.0.25": "通常の使用において、機能や性能に変化はありません。",
+				"1.0.28": "これまで販売していた「haritoraX Wireless 肘拡張セット」の取り付け位置を変更できるようになりました。\n例えば、肘→足、肘→手首のように変更できます。\n\nその他の細かい修正。"
+			},
+			"mc3s_dongle": {
+				"1.0.17": "初回出荷時のファームウェア。",
+				"1.0.19": "通信関連の問題を修正しました。",
+				"1.0.26": "HaritoraX 2対応版。"
+			}
+		}
 	},
 	"dfu": {
 		"step": {
@@ -60,5 +80,44 @@
 		"show_all_versions_description": "（非推奨）十分にテストされていないものも含め、すべてのファームウェアバージョンを表示します。",
 		"packet_send_delay_description": "デバイスにパケットを送信する間の遅延。 遅延が大きいほど、データの送信は遅くなりますが、デバイスのアップデートが成功する可能性が高くなります。 1を使用すると、完全に無効になります。",
 		"web_bluetooth_not_supported": "このブラウザでは、Web Bluetoothはサポートされていません（またはグローバルで無効になっています）。 デバイスのファームウェアを更新するには、Chrome、Edge、または他のChromiumベースのブラウザを使用してください。"
+	},
+	"faq": {
+		"title": "よくある質問 (FAQ)",
+		"what_is_this_website": {
+			"title": "このウェブサイトは何ですか？",
+			"description": "これは、Shiftall製品のファームウェアを、公式アプリをダウンロードすることなくアップデートできるウェブサイトです。 このサイトを使えば、モバイルユーザーはもう一度ファームウェアをアップデートできます！\nまた、より信頼性を高めるための大幅な修正も含まれており、低価格帯のブルートゥース・アダプターでもアップデートを成功させることがでます！"
+		},
+		"what_is_supported": {
+			"title": "どの製品がサポートされていますか？",
+			"description": "現在、HaritoraX WirelessとHaritoraX 2がサポートされています。GX(6/2)ドングルは近日対応予定です。 古いHaritoraX Wired (1.0/1.1/1b)については、さらに調査する必要があり、ファームウェアファイルを見つける手助けが必要です。"
+		},
+		"how_does_it_work": {
+			"title": "どのように機能しますか？",
+			"description": "デバイスはnRF52プラットフォームを使用しており、BLEまたはシリアル/USB経由でアップデートできます。HaritoraX WirelessとHaritoraX 2のアップデートにはWeb Bluetoothを使用し、GX(6/2)ドングルにはWebUSBを使用します（完成次第）。"
+		},
+		"how_can_i_contribute": {
+			"title": "どうすれば貢献できますか？",
+			"description": "問題を報告したり、機能を提案したり、翻訳を手伝ったりすることで貢献できます。 また、このサイトにまだ掲載されていないファームウェアファイルを提供することで、デバイスを支援することもできます。 まずは {github_link} ページまたは {discord_link} をご覧ください。",
+			"github_text": "GitHub",
+			"discord_text": "Discord"
+		},
+		"how_did_you_gather_firmware": {
+			"title": "ファームウェアのファイルはどうやって集めたのですか？",
+			"description": "ファームウェアファイルは、公式HaritoraX Wireless DFU {official_website} と {shiftall_vr_manager}（ {playtest_link} とSteam以前の初期ベータテストを含む）から収集しました。\nShiftall VR ManagerはSteamにあるので、HaritoraX Wireless、HaritoraX 2、GX(6/2)ドングルのファームウェアファイルを含む旧バージョンを {depot_link} と {manifests_link} からいつでもダウンロードできます。\nこのサイトにないファームウェアファイルをお持ちの方は、 {contributing_link} をご検討ください。",
+			"website_text": "ウェブサイト",
+			"shiftall_vr_manager_text": "Shiftall VR Manager",
+			"playtest_text": "playtest",
+			"depot_text": "depot",
+			"manifests_text": "manifests",
+			"contributing_text": "contributing"
+		},
+		"why_did_it_not_work": {
+			"title": "なぜうまくいかなかったのですか？ // なぜ進捗状況がパーセンテージの間でジャンプするのですか？",
+			"description": "デフォルトでは、トラッカーにデータを送信する際、ある程度のパフォーマンスを犠牲にしてでも、より信頼性を高めようとする設定になっています。\nそれでも失敗したり、期待通りに動作しない場合は、設定の \"Packet send delay\"オプションを少し増やしてみてください（5、10など）。"
+		},
+		"web_bluetooth_error": {
+			"title": "なぜ\"web bluetooth is not supported\"エラーが表示されるのですか？",
+			"description": "これは、お使いのブラウザがWebブルートゥースをサポートしていないか、有効になっていないことを意味します。 サポートされているChromiumベースのブラウザ（ChromeやMS Edgeなど）を使用していることを確認してください。\nBraveのように、デフォルトでWeb Bluetoothを無効にし、ブラウザのフラグ（chrome://flags）を変更する必要があるブラウザや、まったくサポートしていないブラウザ（Firefox）もあります。"
+		}
 	}
 }
