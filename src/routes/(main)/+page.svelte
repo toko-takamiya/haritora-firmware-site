@@ -17,6 +17,7 @@
 	let updateProgress = $state(0);
 	let updateStatus = $state(m['dfu.status.waiting']());
 	let isUpdating = $state(false);
+	let hasBtSupport = $state(true);
 	let logMessages = $state<string[]>([]);
 
 	// TODO: variable for bluetooth support and disable buttons when false
@@ -68,13 +69,14 @@
 			const firmwareVersion = value ? decoder.decode(new Uint8Array(value.buffer)) : '';
 			let firmwareDate = '';
 			const found = firmwareList.find((fw) => fw.version === firmwareVersion);
-			if (found) firmwareDate = found.date;
+			firmwareDate = found ? found.date : 'Unknown';
 
+			console.log(`Firmware version: ${firmwareVersion} (${firmwareDate})`);
 			updateStatus = m['dfu.status.got_version']({
 				version: firmwareVersion,
-				date: firmwareDate || new Date().toLocaleDateString()
+				date: firmwareDate
 			});
-			logMessages = [...logMessages, `Firmware version: ${firmwareVersion}`];
+			logMessages = [...logMessages, `Firmware version: ${firmwareVersion} (${firmwareDate})`];
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Check version error:', error);
@@ -161,6 +163,7 @@
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
 			console.log('Bluetooth API supported: No');
 			addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+			hasBtSupport = false;
 			return;
 		} else {
 			console.log('Bluetooth API supported: Yes');
@@ -257,7 +260,7 @@
 				<p>{m['dfu.step.check_version']({ tracker: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleCheckVersion}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleCheckVersion}>
 				{m['dfu.button.check_version']()}
 			</button>
 		</div>
@@ -271,7 +274,7 @@
 						: m['dfu.step_note.set_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSetUpdateMode}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSetUpdateMode}>
 				{m['dfu.button.set_update_mode']()}
 			</button>
 		</div>
@@ -288,7 +291,7 @@
 						: m['dfu.step_note.select_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSelectDFUDevice}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSelectDFUDevice}>
 				{m['dfu.button.select_update_mode']()}
 			</button>
 		</div>
