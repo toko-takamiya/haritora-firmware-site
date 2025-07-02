@@ -19,6 +19,7 @@
 	let isUpdating = $state(false);
 	let logMessages = $state<string[]>([]);
 
+	// TODO: variable for bluetooth support and disable buttons when false
 	// TODO: use connection_lost and cancelled
 
 	$effect(() => {
@@ -41,11 +42,51 @@
 		});
 	}
 
+	async function handleCheckVersion() {
+		try {
+			isUpdating = true;
+			updateStatus = m['dfu.status.checking_version']();
+
+			const device = await navigator.bluetooth.requestDevice({
+				filters: [{ namePrefix: 'HaritoraX' }],
+				optionalServices: ['device_information']
+			});
+			console.log(`Selected device: ${device.name}`);
+
+			const server = await device?.gatt?.connect();
+			console.log('Connected to GATT server');
+
+			const service = await server?.getPrimaryService('device_information');
+			console.log('Got device_information service');
+
+			const characteristic = await service?.getCharacteristic(0x2a28);
+			console.log('Got 2a28 (Software Revision String) characteristic');
+
+			const value = await characteristic?.readValue();
+			const decoder = new TextDecoder('utf-8');
+
+			const firmwareVersion = value ? decoder.decode(new Uint8Array(value.buffer)) : '';
+			let firmwareDate = '';
+			const found = firmwareList.find((fw) => fw.version === firmwareVersion);
+			if (found) firmwareDate = found.date;
+
+			updateStatus = m['dfu.status.got_version']({
+				version: firmwareVersion,
+				date: firmwareDate || new Date().toLocaleDateString()
+			});
+			logMessages = [...logMessages, `Firmware version: ${firmwareVersion}`];
+		} catch (error) {
+			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			console.error('Check version error:', error);
+		} finally {
+			isUpdating = false;
+		}
+	}
+
 	async function handleSetUpdateMode() {
 		try {
 			isUpdating = true;
 			updateStatus = m['dfu.status.setting_update_mode']();
-			logMessages = [];
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
@@ -211,6 +252,16 @@
 
 	<!-- DFU Steps -->
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
+		<div class="flex flex-col items-center justify-center gap-3">
+			<div class="text-center">
+				<p>{m['dfu.step.check_version']({ tracker: selectedDevice })}</p>
+				<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
+			</div>
+			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleCheckVersion}>
+				{m['dfu.button.check_version']()}
+			</button>
+		</div>
+		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
 				<p>{m['dfu.step.set_update_mode']({ tracker: selectedDevice })}</p>

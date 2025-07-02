@@ -36,16 +36,19 @@
 	},
 	"dfu": {
 		"step": {
+			"check_version": "Step 0: Check the firmware of your {tracker} tracker.",
 			"set_update_mode": "Step 1: Put your {tracker} tracker into update mode.",
 			"select_update_mode": "Step 2: Select your {tracker} tracker again.",
 			"flash": "Step 3: Flash the selected firmware to your {tracker} tracker."
 		},
 		"step_note": {
+			"check_version": "This will check the current firmware version of your tracker. This is optional and can be skipped if you know the current version.",
 			"set_update_mode": "This will turn your tracker into DFU (Device Firmware Update) mode, letting the trackers appear as \"HaritoraXW-Update\".",
 			"select_update_mode": "Select the tracker that is now in DFU (Device Firmware Update) mode. It should appear as \"HaritoraXW-Update\".",
 			"flash": "This will flash the selected firmware to your tracker."
 		},
 		"button": {
+			"check_version": "Check version",
 			"set_update_mode": "Set to update mode",
 			"select_update_mode": "Select DFU device",
 			"flash": "Flash firmware"
@@ -56,12 +59,12 @@
 		},
 		"status": {
 			"waiting": "waiting for user...",
-			"error": "Error flashing firmware, please try again.",
-			"selecting": "Selecting device in update mode...",
-			"updating": "Flashing firmware... ({current}/{total} bytes, {progress}%)",
+			"checking_version": "checking version...",
+			"got_version": "got version {version} ({date})",
+			"selecting": "selecting device in update mode...",
+			"updating": "flashing firmware... ({current}/{total} bytes, {progress}%)",
 			"completed": "Firmware flash completed successfully!",
 			"cancelled": "firmware update cancelled.",
-			"device_not_found": "No compatible device found.",
 			"connection_lost": "connection to device lost during update.",
 			"invalid_firmware": "The selected firmware file is invalid or corrupted.",
 			"setting_update_mode": "setting device to update mode...",
