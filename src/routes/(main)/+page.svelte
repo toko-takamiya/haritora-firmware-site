@@ -71,6 +71,7 @@
 			const found = firmwareList.find((fw) => fw.version === firmwareVersion);
 			firmwareDate = found ? found.date : 'Unknown';
 
+			addToast("info", `${firmwareVersion} (${firmwareDate})`, false);
 			console.log(`Firmware version: ${firmwareVersion} (${firmwareDate})`);
 			updateStatus = m['dfu.status.got_version']({
 				version: firmwareVersion,
@@ -79,6 +80,7 @@
 			logMessages = [...logMessages, `Firmware version: ${firmwareVersion} (${firmwareDate})`];
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
 			console.error('Check version error:', error);
 		} finally {
 			isUpdating = false;
@@ -97,9 +99,11 @@
 
 			await firmwareUpdater.setUpdateMode();
 			updateStatus = m['dfu.status.set_update_mode']();
+			addToast("success", m['dfu.status.set_update_mode'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Set update mode error:', error);
+			addToast("error", updateStatus, false);
 		} finally {
 			isUpdating = false;
 		}
@@ -112,13 +116,16 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
+				addToast("error", updateStatus, false);
 				return;
 			}
 
 			dfuDevice = await firmwareUpdater.selectDFUDevice();
 			updateStatus = m['dfu.status.dfu_selected']();
+			addToast("success", m['dfu.status.dfu_selected'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
 			console.error('Select DFU device error:', error);
 		} finally {
 			isUpdating = false;
@@ -128,6 +135,7 @@
 	async function handleFlashFirmware() {
 		if (!dfuDevice || !selectedFirmware) {
 			updateStatus = m['dfu.status.please_select']();
+			addToast("warning", updateStatus, false);
 			return;
 		}
 
@@ -138,6 +146,7 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
+				addToast("error", updateStatus, false);
 				return;
 			}
 
@@ -145,9 +154,11 @@
 			await firmwareUpdater.flashFirmware(dfuDevice, firmwareBuffer);
 
 			updateStatus = m['dfu.status.firmware_completed']();
+			addToast("success", m['dfu.status.firmware_completed'](), true);
 			updateProgress = 100;
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
 			console.error('Flash firmware error:', error);
 		} finally {
 			isUpdating = false;
