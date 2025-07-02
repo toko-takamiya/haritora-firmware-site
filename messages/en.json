@@ -1,6 +1,6 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.",
+	"disclaimer": "I am not responsible for any damage caused by the upgrade/downgrade of the firmware on your devices. You agree to use this tool at your own risk.\nThis is an unofficial tool not affiliated with Shiftall Inc.",
 	"select": {
 		"device": "Select your device",
 		"firmware": "Select firmware version"
@@ -12,20 +12,43 @@
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
-		"release_notes": "Release Notes"
+		"release_notes": "Release Notes",
+		"versions": {
+			"unknown": "Unknown\n\nThis is undocumented in the official manual, so no information is known about this version.",
+			"mc4seb": {
+				"1.0.14": "Minor update.",
+				"1.0.15": "LiDAR sensor capture angle improved (wider).\nFixed an issue where auto power-off sometimes not work in GX dongle mode.\nOther minor modifications.",
+				"1.0.24": "Fixed a rare issue where the power could not be turned on without a forced shutdown.\nFixed a problem where the red LED would flash rapidly just before charging was complete.\nOther minor fixes",
+				"1.0.25": "Fixed an issue where the red LED would remain on even after charging was complete.",
+				"1.0.27": "Fixed a rare issue where the GX dongle connection could be unexpectedly disconnected."
+			},
+			"mc3s": {
+				"1.0.22": "Fixed a bug that the settings of attach location(CHEST, HIP, etc.) were rewritten.\nOther minor modifications.",
+				"1.0.25": "No change in functionality or performance under normal use.",
+				"1.0.28": "It is now possible to change the attachment point for all previously sold “HaritoraX Wireless Elbow Expansion Sets.\nFor example, you can change from Elbow → Foot or Elbow → Wrist.\n\nOther minor improvements."
+			},
+			"mc3s_dongle": {
+				"1.0.17": "Firmware on initial shipment.",
+				"1.0.19": "Fixed communication-related problems.",
+				"1.0.26": "Compatible with HaritoraX 2."
+			}
+		}
 	},
 	"dfu": {
 		"step": {
+			"check_version": "Step 0: Check the firmware of your {tracker} tracker.",
 			"set_update_mode": "Step 1: Put your {tracker} tracker into update mode.",
 			"select_update_mode": "Step 2: Select your {tracker} tracker again.",
 			"flash": "Step 3: Flash the selected firmware to your {tracker} tracker."
 		},
 		"step_note": {
+			"check_version": "This will check the current firmware version of your tracker. This is optional and can be skipped if you know the current version.",
 			"set_update_mode": "This will turn your tracker into DFU (Device Firmware Update) mode, letting the trackers appear as \"HaritoraXW-Update\".",
 			"select_update_mode": "Select the tracker that is now in DFU (Device Firmware Update) mode. It should appear as \"HaritoraXW-Update\".",
 			"flash": "This will flash the selected firmware to your tracker."
 		},
 		"button": {
+			"check_version": "Check version",
 			"set_update_mode": "Set to update mode",
 			"select_update_mode": "Select DFU device",
 			"flash": "Flash firmware"
@@ -36,12 +59,12 @@
 		},
 		"status": {
 			"waiting": "waiting for user...",
-			"error": "Error flashing firmware, please try again.",
-			"selecting": "Selecting device in update mode...",
-			"updating": "Flashing firmware... ({current}/{total} bytes, {progress}%)",
+			"checking_version": "checking version...",
+			"got_version": "got version {version} ({date})",
+			"selecting": "selecting device in update mode...",
+			"updating": "flashing firmware... ({current}/{total} bytes, {progress}%)",
 			"completed": "Firmware flash completed successfully!",
 			"cancelled": "firmware update cancelled.",
-			"device_not_found": "No compatible device found.",
 			"connection_lost": "connection to device lost during update.",
 			"invalid_firmware": "The selected firmware file is invalid or corrupted.",
 			"setting_update_mode": "setting device to update mode...",
@@ -60,5 +83,44 @@
 		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!",
 		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully. Using -1 disables it entirely.",
 		"web_bluetooth_not_supported": "Web Bluetooth is not supported (or disabled globally) in this browser. Please use Chrome, Edge, or another Chromium-based browser to update your device firmware."
+	},
+	"faq": {
+		"title": "Frequently Asked Questions (FAQ)",
+		"what_is_this_website": {
+			"title": "What is this website?",
+			"description": "This is a website that allows you to update the firmware on many of Shiftall's products so you do not need to download the official app. This allows you to update your devices without the official app, allowing mobile users to update once again! This also includes a major fix to be more reliable, allowing even lower-end bluetooth adapters to update successfully!"
+		},
+		"what_is_supported": {
+			"title": "What is supported?",
+			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them."
+		},
+		"how_does_it_work": {
+			"title": "How does it work?",
+			"description": "The devices use the nRF52 platform and can update via BLE or serial/USB, so this uses Web Bluetooth to update the HaritoraX Wireless and HaritoraX 2, with WebUSB for the GX(6/2) dongles (when it's completed)."
+		},
+		"how_can_i_contribute": {
+			"title": "How can I contribute?",
+			"description": "You can contribute by reporting issues, suggesting features, or helping with translations. You can also help by providing firmware files that aren't on the site yet for any devices. Please check the {github_link} page (or {discord_link}) to get started.",
+			"github_text": "GitHub",
+			"discord_text": "Discord"
+		},
+		"how_did_you_gather_firmware": {
+			"title": "How did you gather the firmware files?",
+			"description": "The firmware files were gathered from the official HaritoraX Wireless DFU {official_website} and {shiftall_vr_manager} (including the {playtest_link} and early beta tests before Steam). Since Shiftall VR Manager is on Steam, we can download old versions at any time (through the {depot_link} and {manifests_link}) which include the firmware files of the HaritoraX Wireless, HaritoraX 2, and the GX(6/2) dongles. If you have any firmware files not on this site, please consider {contributing_link}.",
+			"website_text": "website",
+			"shiftall_vr_manager_text": "Shiftall VR Manager",
+			"playtest_text": "playtest",
+			"depot_text": "depot",
+			"manifests_text": "manifests",
+			"contributing_text": "contributing"
+		},
+		"why_did_it_not_work": {
+			"title": "Why did it not work? // Why is the progress jumping between percentages?",
+			"description": "By default, we set up a default that tries to be more reliable when we send data to the trackers at the cost of some performance. If it still fails or does not work as expected, try increasing the \"Packet send delay\" option in settings by a small amount (5, 10, etc) - this will make updating slower but more reliable."
+		},
+		"web_bluetooth_error": {
+			"title": "Why do I get a \"web bluetooth is not supported\" error?",
+			"description": "This means that your browser does not support Web Bluetooth or it is not enabled. Please ensure you are using a supported chromium-based browser (like Chrome or Edge). Some browsers like Brave disable Web Bluetooth by default and require changing browser flags (chrome://flags) or do not support it at all (Firefox)."
+		}
 	}
 }

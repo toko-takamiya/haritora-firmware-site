@@ -17,8 +17,10 @@
 	let updateProgress = $state(0);
 	let updateStatus = $state(m['dfu.status.waiting']());
 	let isUpdating = $state(false);
+	let hasBtSupport = $state(true);
 	let logMessages = $state<string[]>([]);
 
+	// TODO: variable for bluetooth support and disable buttons when false
 	// TODO: use connection_lost and cancelled
 
 	$effect(() => {
@@ -41,11 +43,54 @@
 		});
 	}
 
+	async function handleCheckVersion() {
+		try {
+			isUpdating = true;
+			updateStatus = m['dfu.status.checking_version']();
+
+			const device = await navigator.bluetooth.requestDevice({
+				filters: [{ namePrefix: 'HaritoraX' }],
+				optionalServices: ['device_information']
+			});
+			console.log(`Selected device: ${device.name}`);
+
+			const server = await device?.gatt?.connect();
+			console.log('Connected to GATT server');
+
+			const service = await server?.getPrimaryService('device_information');
+			console.log('Got device_information service');
+
+			const characteristic = await service?.getCharacteristic(0x2a28);
+			console.log('Got 2a28 (Software Revision String) characteristic');
+
+			const value = await characteristic?.readValue();
+			const decoder = new TextDecoder('utf-8');
+
+			const firmwareVersion = value ? decoder.decode(new Uint8Array(value.buffer)) : '';
+			let firmwareDate = '';
+			const found = firmwareList.find((fw) => fw.version === firmwareVersion);
+			firmwareDate = found ? found.date : 'Unknown';
+
+			addToast("info", `${firmwareVersion} (${firmwareDate})`, false);
+			console.log(`Firmware version: ${firmwareVersion} (${firmwareDate})`);
+			updateStatus = m['dfu.status.got_version']({
+				version: firmwareVersion,
+				date: firmwareDate
+			});
+			logMessages = [...logMessages, `Firmware version: ${firmwareVersion} (${firmwareDate})`];
+		} catch (error) {
+			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
+			console.error('Check version error:', error);
+		} finally {
+			isUpdating = false;
+		}
+	}
+
 	async function handleSetUpdateMode() {
 		try {
 			isUpdating = true;
 			updateStatus = m['dfu.status.setting_update_mode']();
-			logMessages = [];
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
@@ -54,9 +99,11 @@
 
 			await firmwareUpdater.setUpdateMode();
 			updateStatus = m['dfu.status.set_update_mode']();
+			addToast("success", m['dfu.status.set_update_mode'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Set update mode error:', error);
+			addToast("error", updateStatus, false);
 		} finally {
 			isUpdating = false;
 		}
@@ -69,13 +116,16 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
+				addToast("error", updateStatus, false);
 				return;
 			}
 
 			dfuDevice = await firmwareUpdater.selectDFUDevice();
 			updateStatus = m['dfu.status.dfu_selected']();
+			addToast("success", m['dfu.status.dfu_selected'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
 			console.error('Select DFU device error:', error);
 		} finally {
 			isUpdating = false;
@@ -85,6 +135,7 @@
 	async function handleFlashFirmware() {
 		if (!dfuDevice || !selectedFirmware) {
 			updateStatus = m['dfu.status.please_select']();
+			addToast("warning", updateStatus, false);
 			return;
 		}
 
@@ -95,6 +146,7 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
+				addToast("error", updateStatus, false);
 				return;
 			}
 
@@ -102,9 +154,11 @@
 			await firmwareUpdater.flashFirmware(dfuDevice, firmwareBuffer);
 
 			updateStatus = m['dfu.status.firmware_completed']();
+			addToast("success", m['dfu.status.firmware_completed'](), true);
 			updateProgress = 100;
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
+			addToast("error", updateStatus, false);
 			console.error('Flash firmware error:', error);
 		} finally {
 			isUpdating = false;
@@ -120,6 +174,7 @@
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
 			console.log('Bluetooth API supported: No');
 			addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+			hasBtSupport = false;
 			return;
 		} else {
 			console.log('Bluetooth API supported: Yes');
@@ -213,6 +268,16 @@
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
+				<p>{m['dfu.step.check_version']({ tracker: selectedDevice })}</p>
+				<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
+			</div>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleCheckVersion}>
+				{m['dfu.button.check_version']()}
+			</button>
+		</div>
+		<hr class="hr" />
+		<div class="flex flex-col items-center justify-center gap-3">
+			<div class="text-center">
 				<p>{m['dfu.step.set_update_mode']({ tracker: selectedDevice })}</p>
 				<p class="text-sm opacity-70">
 					{selectedDevice === Device.HaritoraX2
@@ -220,7 +285,7 @@
 						: m['dfu.step_note.set_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSetUpdateMode}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSetUpdateMode}>
 				{m['dfu.button.set_update_mode']()}
 			</button>
 		</div>
@@ -237,7 +302,7 @@
 						: m['dfu.step_note.select_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating} onclick={handleSelectDFUDevice}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSelectDFUDevice}>
 				{m['dfu.button.select_update_mode']()}
 			</button>
 		</div>
@@ -262,7 +327,7 @@
 		</div>
 	</div>
 
-	<!-- Debug log (optional) -->
+	<!-- Debug log -->
 	{#if logMessages.length > 0}
 		<div class="rounded-lg bg-gray-800 p-6 shadow">
 			<strong class="mb-2 block">Debug Log:</strong>
