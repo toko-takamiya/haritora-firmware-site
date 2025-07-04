@@ -14,6 +14,7 @@ If you have followed all of them, you can make a pull request [here](https://git
 - Install bun - [bun.sh](https://bun.sh/)
 - Clone the project - `git clone https://github.com/JovannMC/haritora-firmware-site.git`
 - Install the dependencies - `bun i`
+- Create a local certificate with [mkcert](https://github.com/FiloSottile/mkcert) in the root directory - `mkcert localhost`
 - Start the dev environment - `bun dev`
 - Make your changes and build - `bun run build`
 

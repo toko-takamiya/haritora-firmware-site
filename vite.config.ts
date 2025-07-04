@@ -4,6 +4,7 @@ import devtoolsJson from 'vite-plugin-devtools-json';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { execSync } from 'child_process';
+import fs from 'fs';
 
 const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
 
@@ -17,8 +18,14 @@ export default defineConfig({
 			outdir: './src/lib/paraglide'
 		})
 	],
-    define: {
-        __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
-        __COMMIT_HASH__: JSON.stringify(commitHash)
-    }
+	define: {
+		__APP_VERSION__: JSON.stringify(process.env.npm_package_version),
+		__COMMIT_HASH__: JSON.stringify(commitHash)
+	},
+	server: {
+		https: {
+			key: fs.readFileSync('./localhost-key.pem'),
+			cert: fs.readFileSync('./localhost.pem')
+		}
+	}
 });
