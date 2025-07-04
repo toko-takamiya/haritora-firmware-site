@@ -17,7 +17,7 @@
 	let updateProgress = $state(0);
 	let updateStatus = $state(m['dfu.status.waiting']());
 	let isUpdating = $state(false);
-	let hasBtSupport = $state(true);
+	let hasSupport = $state(true);
 	let logMessages = $state<string[]>([]);
 
 	// TODO: variable for bluetooth support and disable buttons when false
@@ -174,7 +174,7 @@
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
 			console.log('Bluetooth API supported: No');
 			addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
-			hasBtSupport = false;
+			hasSupport = false;
 			return;
 		} else {
 			console.log('Bluetooth API supported: Yes');
@@ -268,31 +268,31 @@
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
-				<p>{m['dfu.step.check_version']({ tracker: selectedDevice })}</p>
+				<p>{m['dfu.step.check_version']({ device: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleCheckVersion}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleCheckVersion}>
 				{m['dfu.button.check_version']()}
 			</button>
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
-				<p>{m['dfu.step.set_update_mode']({ tracker: selectedDevice })}</p>
+				<p>{m['dfu.step.set_update_mode']({ device: selectedDevice })}</p>
 				<p class="text-sm opacity-70">
 					{selectedDevice === Device.HaritoraX2
 						? m['dfu.step_note.set_update_mode']().replace('HaritoraXW-Update', 'HaritoraX2-Update')
 						: m['dfu.step_note.set_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSetUpdateMode}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleSetUpdateMode}>
 				{m['dfu.button.set_update_mode']()}
 			</button>
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
-				<p>{m['dfu.step.select_update_mode']({ tracker: selectedDevice })}</p>
+				<p>{m['dfu.step.select_update_mode']({ device: selectedDevice })}</p>
 				<p class="text-sm opacity-70">
 					{selectedDevice === Device.HaritoraX2
 						? m['dfu.step_note.select_update_mode']().replace(
@@ -302,14 +302,14 @@
 						: m['dfu.step_note.select_update_mode']()}
 				</p>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasBtSupport} onclick={handleSelectDFUDevice}>
+			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleSelectDFUDevice}>
 				{m['dfu.button.select_update_mode']()}
 			</button>
 		</div>
 		<hr class="hr" />
 		<div class="flex flex-col items-center justify-center gap-3">
 			<div class="text-center">
-				<p>{m['dfu.step.flash']({ tracker: selectedDevice })}</p>
+				<p>{m['dfu.step.flash']({ device: selectedDevice })}</p>
 				<p class="text-sm opacity-70">{m['dfu.step_note.flash']()}</p>
 			</div>
 			<button
