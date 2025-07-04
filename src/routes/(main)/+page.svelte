@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { packetSendDelay, showAllVersions, type FirmwareVersion } from '$lib/store';
+	import { packetSendDelay, type FirmwareVersion } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
 	import { firmwareUpdater } from '$lib/store/updater';
@@ -12,6 +12,8 @@
 	let selectedDevice = $state(Device.HaritoraX2);
 	let firmwareList = $derived(firmwareVersions[selectedDevice]);
 	let selectedFirmware = $state<FirmwareVersion>();
+	let showAllVersions = $state(false);
+	let downloadOnly = $state(false);
 
 	let dfuDevice = $state<BluetoothDevice | null>(null);
 	let updateProgress = $state(0);
@@ -20,12 +22,11 @@
 	let hasSupport = $state(true);
 	let logMessages = $state<string[]>([]);
 
-	// TODO: variable for bluetooth support and disable buttons when false
 	// TODO: use connection_lost and cancelled
 
 	$effect(() => {
 		// TODO: don't automatically change selectedFirmware dropdown when simply toggling the "show all versions" option
-		selectedFirmware = $showAllVersions ? firmwareList[0] : firmwareList.find((fw) => !fw.untested);
+		selectedFirmware = showAllVersions ? firmwareList[0] : firmwareList.find((fw) => !fw.untested);
 	});
 
 	if (firmwareUpdater) {
@@ -41,6 +42,11 @@
 		firmwareUpdater.setLogCallback((message) => {
 			logMessages = [...logMessages, message];
 		});
+	}
+
+	async function handleDownload() {
+		if (!selectedFirmware?.filename) throw new Error('No firmware file specified');
+		window.open(selectedFirmware.filename, '_blank');
 	}
 
 	async function handleCheckVersion() {
@@ -71,7 +77,7 @@
 			const found = firmwareList.find((fw) => fw.version === firmwareVersion);
 			firmwareDate = found ? found.date : 'Unknown';
 
-			addToast("info", `${firmwareVersion} (${firmwareDate})`, false);
+			addToast('info', `${firmwareVersion} (${firmwareDate})`, false);
 			console.log(`Firmware version: ${firmwareVersion} (${firmwareDate})`);
 			updateStatus = m['dfu.status.got_version']({
 				version: firmwareVersion,
@@ -80,7 +86,7 @@
 			logMessages = [...logMessages, `Firmware version: ${firmwareVersion} (${firmwareDate})`];
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
-			addToast("error", updateStatus, false);
+			addToast('error', updateStatus, false);
 			console.error('Check version error:', error);
 		} finally {
 			isUpdating = false;
@@ -99,11 +105,11 @@
 
 			await firmwareUpdater.setUpdateMode();
 			updateStatus = m['dfu.status.set_update_mode']();
-			addToast("success", m['dfu.status.set_update_mode'](), true);
+			addToast('success', m['dfu.status.set_update_mode'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
 			console.error('Set update mode error:', error);
-			addToast("error", updateStatus, false);
+			addToast('error', updateStatus, false);
 		} finally {
 			isUpdating = false;
 		}
@@ -116,16 +122,16 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
-				addToast("error", updateStatus, false);
+				addToast('error', updateStatus, false);
 				return;
 			}
 
 			dfuDevice = await firmwareUpdater.selectDFUDevice();
 			updateStatus = m['dfu.status.dfu_selected']();
-			addToast("success", m['dfu.status.dfu_selected'](), true);
+			addToast('success', m['dfu.status.dfu_selected'](), true);
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
-			addToast("error", updateStatus, false);
+			addToast('error', updateStatus, false);
 			console.error('Select DFU device error:', error);
 		} finally {
 			isUpdating = false;
@@ -135,7 +141,7 @@
 	async function handleFlashFirmware() {
 		if (!dfuDevice || !selectedFirmware) {
 			updateStatus = m['dfu.status.please_select']();
-			addToast("warning", updateStatus, false);
+			addToast('warning', updateStatus, false);
 			return;
 		}
 
@@ -146,7 +152,7 @@
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
-				addToast("error", updateStatus, false);
+				addToast('error', updateStatus, false);
 				return;
 			}
 
@@ -154,11 +160,11 @@
 			await firmwareUpdater.flashFirmware(dfuDevice, firmwareBuffer);
 
 			updateStatus = m['dfu.status.firmware_completed']();
-			addToast("success", m['dfu.status.firmware_completed'](), true);
+			addToast('success', m['dfu.status.firmware_completed'](), true);
 			updateProgress = 100;
 		} catch (error) {
 			updateStatus = `${error instanceof Error ? error.message : 'Unknown error'}`;
-			addToast("error", updateStatus, false);
+			addToast('error', updateStatus, false);
 			console.error('Flash firmware error:', error);
 		} finally {
 			isUpdating = false;
@@ -168,7 +174,6 @@
 	// check for Web Bluetooth support on page load
 	onMount(async () => {
 		console.log(`Browser: ${browser}`);
-
 		if (!browser) return;
 
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
@@ -186,7 +191,6 @@
 	<title>SlimeTora: DFU</title>
 </svelte:head>
 
-<!-- TODO: add button to check version -->
 <div class="mx-auto w-full max-w-2xl space-y-6">
 	<!-- Device and firmware selection -->
 	<div class="flex flex-col flex-wrap gap-6 rounded-lg bg-gray-800 p-6 shadow">
@@ -207,7 +211,7 @@
 				<select id="firmware-select" class="select w-full" bind:value={selectedFirmware}>
 					{#each firmwareList as fw}
 						<!-- hide any "unknown" versions if showAllVersions is disabled (e.g. is a commit hash) -->
-						{#if $showAllVersions || !fw.untested}
+						{#if showAllVersions || !fw.untested}
 							<option value={fw}
 								>{m['firmware.version']({ version: fw.version, date: fw.date })}</option
 							>
@@ -220,7 +224,7 @@
 		<!-- Settings row -->
 		<div class="flex w-full min-w-[250px] flex-col">
 			<p class="mb-2 block font-semibold">{m['settings.settings']?.()}</p>
-			<div class="flex flex-col justify-between gap-2 md:flex-row">
+			<div class="flex flex-col justify-between gap-2 md:grid md:grid-cols-2">
 				<div class="flex items-center gap-2">
 					<span class="text-sm">{m['settings.packet_send_delay']?.()}:</span>
 					<input
@@ -237,17 +241,27 @@
 						<Icon icon="mdi:information-outline" />
 					</button>
 				</div>
-				<div class="flex items-center gap-2">
+				<div class="flex items-center gap-2 md:justify-end">
 					<label for="show-untested" class="text-sm">{m['settings.show_all_versions']?.()}:</label>
 					<input
 						type="checkbox"
 						id="show-untested"
 						class="checkbox"
-						bind:checked={$showAllVersions}
+						bind:checked={showAllVersions}
 					/>
 					<button
 						class="btn-icon variant-ghost"
 						onclick={() => addToast('info', m['toasts.show_all_versions_description'](), false)}
+					>
+						<Icon icon="mdi:information-outline" />
+					</button>
+				</div>
+				<div class="flex items-center gap-2">
+					<label for="download-only" class="text-sm">{m['settings.download_only']?.()}:</label>
+					<input type="checkbox" id="download-only" class="checkbox" bind:checked={downloadOnly} />
+					<button
+						class="btn-icon variant-ghost"
+						onclick={() => addToast('info', m['toasts.download_only_description'](), false)}
 					>
 						<Icon icon="mdi:information-outline" />
 					</button>
@@ -266,65 +280,96 @@
 
 	<!-- DFU Steps -->
 	<div class="flex flex-col items-center gap-6 rounded-lg bg-gray-800 p-6 shadow">
-		<div class="flex flex-col items-center justify-center gap-3">
-			<div class="text-center">
-				<p>{m['dfu.step.check_version']({ device: selectedDevice })}</p>
-				<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
+		{#if downloadOnly}
+			<div class="flex flex-col items-center justify-center gap-3">
+				<div class="text-center">
+					<p>{m['dfu.step.download_only']({ device: selectedDevice })}</p>
+					<p class="text-sm opacity-70">{m['dfu.step_note.download_only']()}</p>
+				</div>
+				<button
+					class="btn bg-secondary-500"
+					disabled={isUpdating || !selectedFirmware}
+					onclick={handleDownload}
+				>
+					{m['dfu.button.download_only']()}
+				</button>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleCheckVersion}>
-				{m['dfu.button.check_version']()}
-			</button>
-		</div>
-		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-3">
-			<div class="text-center">
-				<p>{m['dfu.step.set_update_mode']({ device: selectedDevice })}</p>
-				<p class="text-sm opacity-70">
-					{selectedDevice === Device.HaritoraX2
-						? m['dfu.step_note.set_update_mode']().replace('HaritoraXW-Update', 'HaritoraX2-Update')
-						: m['dfu.step_note.set_update_mode']()}
-				</p>
+		{:else}
+			<div class="flex flex-col items-center justify-center gap-3">
+				<div class="text-center">
+					<p>{m['dfu.step.check_version']({ device: selectedDevice })}</p>
+					<p class="text-sm opacity-70">{m['dfu.step_note.check_version']()}</p>
+				</div>
+				<button
+					class="btn bg-primary-500"
+					disabled={isUpdating || !hasSupport}
+					onclick={handleCheckVersion}
+				>
+					{m['dfu.button.check_version']()}
+				</button>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleSetUpdateMode}>
-				{m['dfu.button.set_update_mode']()}
-			</button>
-		</div>
-		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-3">
-			<div class="text-center">
-				<p>{m['dfu.step.select_update_mode']({ device: selectedDevice })}</p>
-				<p class="text-sm opacity-70">
-					{selectedDevice === Device.HaritoraX2
-						? m['dfu.step_note.select_update_mode']().replace(
-								'HaritoraXW-Update',
-								'HaritoraX2-Update'
-							)
-						: m['dfu.step_note.select_update_mode']()}
-				</p>
+			<hr class="hr" />
+			<div class="flex flex-col items-center justify-center gap-3">
+				<div class="text-center">
+					<p>{m['dfu.step.set_update_mode']({ device: selectedDevice })}</p>
+					<p class="text-sm opacity-70">
+						{selectedDevice === Device.HaritoraX2
+							? m['dfu.step_note.set_update_mode']().replace(
+									'HaritoraXW-Update',
+									'HaritoraX2-Update'
+								)
+							: m['dfu.step_note.set_update_mode']()}
+					</p>
+				</div>
+				<button
+					class="btn bg-primary-500"
+					disabled={isUpdating || !hasSupport}
+					onclick={handleSetUpdateMode}
+				>
+					{m['dfu.button.set_update_mode']()}
+				</button>
 			</div>
-			<button class="btn bg-primary-500" disabled={isUpdating || !hasSupport} onclick={handleSelectDFUDevice}>
-				{m['dfu.button.select_update_mode']()}
-			</button>
-		</div>
-		<hr class="hr" />
-		<div class="flex flex-col items-center justify-center gap-3">
-			<div class="text-center">
-				<p>{m['dfu.step.flash']({ device: selectedDevice })}</p>
-				<p class="text-sm opacity-70">{m['dfu.step_note.flash']()}</p>
+			<hr class="hr" />
+			<div class="flex flex-col items-center justify-center gap-3">
+				<div class="text-center">
+					<p>{m['dfu.step.select_update_mode']({ device: selectedDevice })}</p>
+					<p class="text-sm opacity-70">
+						{selectedDevice === Device.HaritoraX2
+							? m['dfu.step_note.select_update_mode']().replace(
+									'HaritoraXW-Update',
+									'HaritoraX2-Update'
+								)
+							: m['dfu.step_note.select_update_mode']()}
+					</p>
+				</div>
+				<button
+					class="btn bg-primary-500"
+					disabled={isUpdating || !hasSupport}
+					onclick={handleSelectDFUDevice}
+				>
+					{m['dfu.button.select_update_mode']()}
+				</button>
 			</div>
-			<button
-				class="btn bg-secondary-500"
-				disabled={isUpdating || !dfuDevice || !selectedFirmware}
-				onclick={handleFlashFirmware}
-			>
-				{m['dfu.button.flash']()}
-			</button>
-		</div>
-		<hr class="hr" />
-		<div class="flex w-full flex-col items-center justify-center gap-4 text-center">
-			<p>{m['dfu.status.status']({ status: updateStatus })}</p>
-			<Progress value={updateProgress > 0 ? updateProgress : null} />
-		</div>
+			<hr class="hr" />
+			<div class="flex flex-col items-center justify-center gap-3">
+				<div class="text-center">
+					<p>{m['dfu.step.flash']({ device: selectedDevice })}</p>
+					<p class="text-sm opacity-70">{m['dfu.step_note.flash']()}</p>
+				</div>
+				<button
+					class="btn bg-secondary-500"
+					disabled={isUpdating || !dfuDevice || !selectedFirmware}
+					onclick={handleFlashFirmware}
+				>
+					{m['dfu.button.flash']()}
+				</button>
+			</div>
+			<hr class="hr" />
+			<div class="flex w-full flex-col items-center justify-center gap-4 text-center">
+				<p>{m['dfu.status.status']({ status: updateStatus })}</p>
+				<Progress value={updateProgress > 0 ? updateProgress : null} />
+			</div>
+		{/if}
 	</div>
 
 	<!-- Debug log -->
