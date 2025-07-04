@@ -22,6 +22,24 @@
 	let isUpdating = $state(false);
 	let hasSupport = $state(true);
 	let logMessages = $state<string[]>([]);
+	let logContainer = $state<HTMLDivElement | null>(null);
+	let wasScrolledToBottom = $state(true);
+
+	function handleScroll() {
+		if (!logContainer) return;
+		const { scrollTop, scrollHeight, clientHeight } = logContainer;
+		wasScrolledToBottom = scrollTop + clientHeight >= scrollHeight - 5; // 5px tolerance
+	}
+
+	// auto-scroll for debug log
+	$effect(() => {
+		// if user was at bottom/is first message, scroll to bottom
+		if (logContainer && logMessages.length > 0 && wasScrolledToBottom)
+			requestAnimationFrame(() => {
+				logContainer!.scrollTop = logContainer!.scrollHeight;
+				wasScrolledToBottom = true;
+			});
+	});
 
 	// TODO: use connection_lost and cancelled
 
@@ -88,7 +106,10 @@
 			updateStatus = m['dfu.status.checking_version']();
 
 			if ($demoMode) {
-				updateStatus = await simulatedUpdater.simulateCheckVersion(selectedDevice, selectedFirmware);
+				updateStatus = await simulatedUpdater.simulateCheckVersion(
+					selectedDevice,
+					selectedFirmware
+				);
 				return;
 			}
 
@@ -443,8 +464,12 @@
 	<!-- Debug log -->
 	{#if logMessages.length > 0}
 		<div class="rounded-lg bg-gray-800 p-6 shadow">
-			<strong class="mb-2 block">Debug Log:</strong>
-			<div class="max-h-40 overflow-y-auto font-mono text-xs text-gray-400">
+			<strong class="mb-2 block">{m['dfu.debug_log']()}</strong>
+			<div
+				bind:this={logContainer}
+				onscroll={handleScroll}
+				class="max-h-40 overflow-y-auto font-mono text-xs text-gray-400"
+			>
 				{#each logMessages as message}
 					<div>{message}</div>
 				{/each}
