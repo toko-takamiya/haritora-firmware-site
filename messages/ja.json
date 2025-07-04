@@ -36,9 +36,9 @@
 	},
 	"dfu": {
 		"step": {
-			"set_update_mode": "ステップ1: {tracker} トラッカーをDFUモードにします。",
-			"select_update_mode": "ステップ2: {tracker} トラッカーを再度選択します。",
-			"flash": "ステップ3： 選択したファームウェアを {tracker} トラッカーに書き込みます。"
+			"set_update_mode": "ステップ1: {device} トラッカーをDFUモードにします。",
+			"select_update_mode": "ステップ2: {device} トラッカーを再度選択します。",
+			"flash": "ステップ3： 選択したファームウェアを {device} トラッカーに書き込みます。"
 		},
 		"step_note": {
 			"set_update_mode": "これにより、トラッカーはDFU（Device Firmware Update）モードになり、\"HaritoraXW-Update\"と表示されます。",

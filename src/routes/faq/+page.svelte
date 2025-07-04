@@ -56,5 +56,8 @@
 		{@render faqItem('faq.why_did_it_not_work.title', m['faq.why_did_it_not_work.description']())}
 
 		{@render faqItem('faq.web_bluetooth_error.title', m['faq.web_bluetooth_error.description']())}
+
+		{@render faqItem('faq.why_bluetooth_needed.title', m['faq.why_bluetooth_needed.description']())}
+
 	</div>
 </div>
