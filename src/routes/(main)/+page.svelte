@@ -29,6 +29,21 @@
 		selectedFirmware = showAllVersions ? firmwareList[0] : firmwareList.find((fw) => !fw.untested);
 	});
 
+	$effect(() => {
+		// can only download firmware for gx dongles
+		if (selectedDevice === Device.GX) {
+			downloadOnly = true;
+			const downloadOnlyCheckbox = document.getElementById("download-only") as HTMLInputElement;
+			if (downloadOnlyCheckbox) {
+				downloadOnlyCheckbox.checked = true;
+				downloadOnlyCheckbox.disabled = true;
+			}
+		} else {
+			const downloadOnlyCheckbox = document.getElementById("download-only") as HTMLInputElement;
+			if (downloadOnlyCheckbox) downloadOnlyCheckbox.disabled = false;
+		}
+	})
+
 	if (firmwareUpdater) {
 		firmwareUpdater.setProgressCallback((progress) => {
 			updateProgress = Math.round((progress.currentBytes / progress.totalBytes) * 100);
