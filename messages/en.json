@@ -9,7 +9,8 @@
 		"settings": "Settings",
 		"packet_send_delay": "Packet send delay (ms)",
 		"show_all_versions": "Show untested versions",
-		"download_only": "Download firmware only"
+		"download_only": "Download firmware only",
+		"demo_mode": "Demo mode"
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
@@ -87,7 +88,9 @@
 		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!",
 		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully. Using -1 disables it entirely.",
 		"download_only_description": "Only download the firmware file to your device without flashing it. Useful for advanced users to experiment with.",
-		"web_bluetooth_not_supported": "Web Bluetooth is not supported (or disabled globally) in this browser. Please use Chrome, Edge, or another Chromium-based browser to update your device firmware."
+		"web_bluetooth_not_supported": "Web Bluetooth is not supported (or disabled globally) in this browser. Please use Chrome, Edge, or another Chromium-based browser to update your device firmware.",
+		"demo_mode_description": "Enable demo mode to simulate the firmware update process without flashing real devices. Just to show it off!",
+		"demo_enabled": "Demo mode is enabled - all actions are simulated"
 	},
 	"faq": {
 		"title": "Frequently Asked Questions (FAQ)",

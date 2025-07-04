@@ -13,6 +13,7 @@ export function updateLocale(newLocale) {
 }
 
 export const packetSendDelay = writable(1);
+export const demoMode = writable(false);
 
 export function isSemVersion(version: string): boolean {
 	// check if version matches semantic versioning (e.g. 1.0.1, 1.0.21)

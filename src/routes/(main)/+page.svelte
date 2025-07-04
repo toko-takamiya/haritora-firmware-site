@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { packetSendDelay, type FirmwareVersion } from '$lib/store';
+	import { packetSendDelay, demoMode, type FirmwareVersion } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
 	import { firmwareUpdater } from '$lib/store/updater';
+	import { simulatedUpdater } from '$lib/store/simulated-updater';
 	import Icon from '@iconify/svelte';
 	import { Progress } from '@skeletonlabs/skeleton-svelte';
 	import { browser } from '$app/environment';
@@ -33,31 +34,48 @@
 		// can only download firmware for gx dongles
 		if (selectedDevice === Device.GX) {
 			downloadOnly = true;
-			const downloadOnlyCheckbox = document.getElementById("download-only") as HTMLInputElement;
+			const downloadOnlyCheckbox = document.getElementById('download-only') as HTMLInputElement;
 			if (downloadOnlyCheckbox) {
 				downloadOnlyCheckbox.checked = true;
 				downloadOnlyCheckbox.disabled = true;
 			}
 		} else {
-			const downloadOnlyCheckbox = document.getElementById("download-only") as HTMLInputElement;
+			const downloadOnlyCheckbox = document.getElementById('download-only') as HTMLInputElement;
 			if (downloadOnlyCheckbox) downloadOnlyCheckbox.disabled = false;
 		}
-	})
+	});
 
-	if (firmwareUpdater) {
-		firmwareUpdater.setProgressCallback((progress) => {
+	$effect(() => {
+		if ($demoMode && browser) {
+			addToast('info', m['toasts.demo_enabled'](), true);
+		}
+	});
+
+	// Setup callbacks for both real and simulated updaters
+	function setupUpdaterCallbacks() {
+		const progressCallback = (progress: { currentBytes: number; totalBytes: number }) => {
 			updateProgress = Math.round((progress.currentBytes / progress.totalBytes) * 100);
 			updateStatus = m['dfu.status.updating']({
 				progress: updateProgress,
 				total: progress.totalBytes,
 				current: progress.currentBytes
 			});
-		});
+		};
 
-		firmwareUpdater.setLogCallback((message) => {
+		const logCallback = (message: string) => {
 			logMessages = [...logMessages, message];
-		});
+		};
+
+		if (firmwareUpdater) {
+			firmwareUpdater.setProgressCallback(progressCallback);
+			firmwareUpdater.setLogCallback(logCallback);
+		}
+
+		simulatedUpdater.setProgressCallback(progressCallback);
+		simulatedUpdater.setLogCallback(logCallback);
 	}
+
+	setupUpdaterCallbacks();
 
 	async function handleDownload() {
 		if (!selectedFirmware?.filename) throw new Error('No firmware file specified');
@@ -68,6 +86,11 @@
 		try {
 			isUpdating = true;
 			updateStatus = m['dfu.status.checking_version']();
+
+			if ($demoMode) {
+				updateStatus = await simulatedUpdater.simulateCheckVersion(selectedDevice, selectedFirmware);
+				return;
+			}
 
 			const device = await navigator.bluetooth.requestDevice({
 				filters: [{ namePrefix: 'HaritoraX' }],
@@ -113,6 +136,11 @@
 			isUpdating = true;
 			updateStatus = m['dfu.status.setting_update_mode']();
 
+			if ($demoMode) {
+				updateStatus = await simulatedUpdater.simulateSetUpdateMode();
+				return;
+			}
+
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
 				return;
@@ -134,6 +162,13 @@
 		try {
 			isUpdating = true;
 			updateStatus = m['dfu.status.selecting_dfu']();
+
+			if ($demoMode) {
+				const result = await simulatedUpdater.simulateSelectDFUDevice(selectedDevice);
+				dfuDevice = result.device;
+				updateStatus = result.status;
+				return;
+			}
 
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
@@ -165,6 +200,12 @@
 			updateProgress = 0;
 			updateStatus = m['dfu.status.starting_update']();
 
+			if ($demoMode) {
+				updateStatus = await simulatedUpdater.simulateFlashFirmware();
+				updateProgress = 100;
+				return;
+			}
+
 			if (!firmwareUpdater) {
 				updateStatus = m['dfu.status.firmware_updater_not_initialized']();
 				addToast('error', updateStatus, false);
@@ -193,8 +234,10 @@
 
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
 			console.log('Bluetooth API supported: No');
-			addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
-			hasSupport = false;
+			if (!$demoMode) {
+				addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+				hasSupport = false;
+			}
 			return;
 		} else {
 			console.log('Bluetooth API supported: Yes');
@@ -281,6 +324,16 @@
 						<Icon icon="mdi:information-outline" />
 					</button>
 				</div>
+				<div class="flex items-center gap-2 md:justify-end">
+					<label for="demo-mode" class="text-sm">{m['settings.demo_mode']?.()}:</label>
+					<input type="checkbox" id="demo-mode" class="checkbox" bind:checked={$demoMode} />
+					<button
+						class="btn-icon variant-ghost"
+						onclick={() => addToast('info', m['toasts.demo_mode_description'](), false)}
+					>
+						<Icon icon="mdi:information-outline" />
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -317,7 +370,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || !hasSupport}
+					disabled={isUpdating || (!hasSupport && !$demoMode)}
 					onclick={handleCheckVersion}
 				>
 					{m['dfu.button.check_version']()}
@@ -338,7 +391,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || !hasSupport}
+					disabled={isUpdating || (!hasSupport && !$demoMode)}
 					onclick={handleSetUpdateMode}
 				>
 					{m['dfu.button.set_update_mode']()}
@@ -359,7 +412,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || !hasSupport}
+					disabled={isUpdating || (!hasSupport && !$demoMode)}
 					onclick={handleSelectDFUDevice}
 				>
 					{m['dfu.button.select_update_mode']()}
