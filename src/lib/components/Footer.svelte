@@ -9,7 +9,7 @@
 		</div>
 		<select
 			class="btn btn-sm bg-secondary-500 rounded text-gray-100 focus:outline-none"
-			bind:value={$currentLocale}
+			value={$currentLocale}
 			onchange={(e) => {
 				try {
 					const value = (e.target as HTMLSelectElement)?.value;

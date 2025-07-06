@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { packetSendDelay, demoMode, type FirmwareVersion } from '$lib/store';
+	import { packetSendDelay, demoMode, type FirmwareVersion, currentLocale } from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
 	import { firmwareUpdater } from '$lib/store/updater';
@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 
 	let selectedDevice = $state(Device.HaritoraX2);
-	let firmwareList = $derived(firmwareVersions[selectedDevice]);
+	let firmwareList = $derived($firmwareVersions[selectedDevice]);
 	let selectedFirmware = $state<FirmwareVersion>();
 	let showAllVersions = $state(false);
 	let downloadOnly = $state(false);
