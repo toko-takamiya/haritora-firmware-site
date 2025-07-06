@@ -1,6 +1,12 @@
 <script lang="ts">
 	import { m } from '$lib/paraglide/messages.js';
-	import { packetSendDelay, demoMode, type FirmwareVersion, urlPrefix, getDFUCommand } from '$lib/store';
+	import {
+		packetSendDelay,
+		demoMode,
+		type FirmwareVersion,
+		urlPrefix,
+		getDFUCommand
+	} from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
 	import { firmwareUpdater } from '$lib/store/updater';
@@ -84,6 +90,17 @@
 		}
 	});
 
+	$effect(() => {
+		if (manualUpdate && browser) {
+			// check if user is NOT on Windows
+			const isWindows = navigator.userAgent.includes('Windows');
+			if (!isWindows) {
+				addToast('warning', m['toasts.os_unsupported']?.(), false);
+				console.log(`Unsupported OS platform, user agent: ${navigator.userAgent}`);
+			}
+		}
+	});
+
 	function setupUpdaterCallbacks() {
 		const progressCallback = (progress: { currentBytes: number; totalBytes: number }) => {
 			updateProgress = Math.round((progress.currentBytes / progress.totalBytes) * 100);
@@ -109,10 +126,8 @@
 		}
 	}
 
-	setupUpdaterCallbacks();
-
-	async function handleDownload(type: "firmware" | "updater") {
-		if (type === "firmware") {
+	async function handleDownload(type: 'firmware' | 'updater') {
+		if (type === 'firmware') {
 			if (!selectedFirmware?.filename) throw new Error('No firmware file specified');
 			window.open(selectedFirmware.filename, '_blank');
 		} else {
@@ -284,6 +299,8 @@
 
 	// check for Web Bluetooth support on page load
 	onMount(async () => {
+		setupUpdaterCallbacks();
+
 		console.log(`Browser: ${browser}`);
 		if (!browser) return;
 
@@ -413,7 +430,7 @@
 				<button
 					class="btn bg-primary-500"
 					disabled={isUpdating || !selectedFirmware}
-					onclick={() => handleDownload("firmware")}
+					onclick={() => handleDownload('firmware')}
 				>
 					{m['dfu.button.download_firmware']()}
 				</button>
@@ -427,14 +444,14 @@
 				<button
 					class="btn bg-primary-500"
 					disabled={isUpdating || !selectedFirmware}
-					onclick={() => handleDownload("updater")}
+					onclick={() => handleDownload('updater')}
 				>
 					{m['dfu.button.download_updater']()}
 				</button>
 			</div>
 			<hr class="hr" />
-			{@const filename = selectedFirmware?.filename?.split('/').pop() || 'Unknown' }
-			{@const device = "meow"}
+			{@const filename = selectedFirmware?.filename?.split('/').pop() || 'Unknown'}
+			{@const device = 'meow'}
 			{@const command = getDFUCommand(selectedDevice, filename, device)}
 			<div class="flex flex-col items-center justify-center gap-3">
 				<div class="text-center">

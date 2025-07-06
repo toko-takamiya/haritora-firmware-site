@@ -9,7 +9,7 @@
 		"settings": "Settings",
 		"packet_send_delay": "Packet send delay (ms)",
 		"show_all_versions": "Show untested versions",
-		"manual_update": "Manual update",
+		"manual_update": "Manual/download update",
 		"demo_mode": "Demo mode"
 	},
 	"firmware": {
@@ -94,6 +94,7 @@
 		"show_all_versions_description": "Show all firmware versions, including those that have not been tested thoroughly. Not recommended!",
 		"packet_send_delay_description": "Delay between sending packets to the device. A larger delay sends data slower but is more likely to update your device successfully. Using -1 disables it entirely.",
 		"manual_update_description": "Manually update the trackers for advanced users, if unsupported, or you want to download the firmware to experiment with.",
+		"os_unsupported": "Your OS is not supported for manual update, please attempt the update automatically instead.",
 		"command_copied": "Command copied to clipboard!",
 		"command_copy_failed": "Failed to copy command to clipboard!",
 		"web_bluetooth_not_supported": "Web Bluetooth is not supported (or disabled globally) in this browser. Please use Chrome, Edge, or another Chromium-based browser to update your device firmware.",
