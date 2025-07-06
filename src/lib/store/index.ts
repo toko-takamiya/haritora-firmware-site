@@ -29,7 +29,11 @@ export function getDFUCommand(type: Device, filename: string, device?: string | 
 	if (type === Device.GX) {
 		// for dongle firmware, use gx_update.exe
 		// the python script allows to automatically scan for the ports
-		return `gx_update.exe dfu ${filename}`;
+		if (device) {
+			return `gx_update.exe dfu ${filename} ${device}`;
+		} else {
+			return `gx_update.exe ${filename}`;
+		}
 	} else {
 		// for tracker firmware, use pydfu.exe
 		return `pydfu.exe ${filename} ${device}`;

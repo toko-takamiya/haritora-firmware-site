@@ -68,7 +68,6 @@
 			if (demoModeCheckbox) {
 				demoModeCheckbox.checked = false;
 				demoModeCheckbox.disabled = true;
-				demoMode.set(false);
 			}
 		} else {
 			const downloadOnlyCheckbox = document.getElementById('manual-update') as HTMLInputElement;
@@ -77,10 +76,7 @@
 				downloadOnlyCheckbox.disabled = false;
 				manualUpdate = false;
 			}
-			if (demoModeCheckbox) {
-				demoModeCheckbox.disabled = false;
-				demoMode.set(false);
-			}
+			if (demoModeCheckbox) demoModeCheckbox.disabled = false;
 		}
 	});
 
@@ -97,6 +93,20 @@
 			if (!isWindows) {
 				addToast('warning', m['toasts.os_unsupported']?.(), false);
 				console.log(`Unsupported OS platform, user agent: ${navigator.userAgent}`);
+			}
+		}
+	});
+
+	$effect(() => {
+		// disable demo mode if manual update is enabled, else enable
+		if (!browser) return;
+		const demoModeCheckbox = document.getElementById('demo-mode') as HTMLInputElement;
+		if (demoModeCheckbox) {
+			if (manualUpdate) {
+				demoModeCheckbox.checked = false;
+				demoModeCheckbox.disabled = true;
+			} else {
+				demoModeCheckbox.disabled = false;
 			}
 		}
 	});
@@ -297,7 +307,7 @@
 		}
 	}
 
-	// check for Web Bluetooth support on page load
+	// set up updater callbacks & check for Web Bluetooth support on page load
 	onMount(async () => {
 		setupUpdaterCallbacks();
 
@@ -424,7 +434,7 @@
 			<!-- Manual update -->
 			<div class="flex flex-col items-center justify-center gap-3">
 				<div class="text-center">
-					<p>{m['dfu.step.download_firmware']({ device: selectedDevice })}</p>
+					<p>{m['dfu.step.download_firmware']()}</p>
 					<p class="text-sm opacity-70">{m['dfu.step_note.download_firmware']()}</p>
 				</div>
 				<button
@@ -438,7 +448,7 @@
 			<hr class="hr" />
 			<div class="flex flex-col items-center justify-center gap-3">
 				<div class="text-center">
-					<p>{m['dfu.step.download_updater']({ device: selectedDevice })}</p>
+					<p>{m['dfu.step.download_updater']()}</p>
 					<p class="text-sm opacity-70">{m['dfu.step_note.download_updater']()}</p>
 				</div>
 				<button
@@ -450,12 +460,16 @@
 				</button>
 			</div>
 			<hr class="hr" />
+			{@const isDongle = selectedDevice === Device.GX}
 			{@const filename = selectedFirmware?.filename?.split('/').pop() || 'Unknown'}
-			{@const device = 'meow'}
-			{@const command = getDFUCommand(selectedDevice, filename, device)}
+			{@const command = getDFUCommand(
+				selectedDevice,
+				filename,
+				!isDongle ? '(MAC_ADDRESS)' : undefined
+			)}
 			<div class="flex flex-col items-center justify-center gap-3">
 				<div class="text-center">
-					<p>{m['dfu.step.copy_command']({ device: selectedDevice })}</p>
+					<p>{m['dfu.step.copy_command']()}</p>
 					<p class="text-sm opacity-70">{m['dfu.step_note.copy_command']({ command })}</p>
 				</div>
 				<button
