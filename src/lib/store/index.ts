@@ -1,5 +1,5 @@
 // ! Tracker firmware is not provided by this git repository.
-// ! You may modify this (or grab the firmware by yourself on https://dfu.slimetora.dev/firmware/{path to firmware} OR https://archive.org/details/shiftall_firmware)
+// ! You may modify this (or grab the firmware by yourself on https://dfu.slimetora.dev/firmware/{path_to_firmware} OR https://archive.org/details/shiftall_firmware)
 
 import { getLocale, setLocale } from '$lib/paraglide/runtime';
 import { writable, derived } from 'svelte/store';
@@ -21,6 +21,21 @@ export function isSemVersion(version: string): boolean {
 	return semverRegex.test(version);
 }
 
+export function getDFUCommand(type: Device, filename: string, device?: string | string[]) {
+	// pydfu.exe (zip) (mac address)
+	// gx_update.exe dfu (zip) [serial_ports]
+	// serial_ports is optional
+
+	if (type === Device.GX) {
+		// for dongle firmware, use gx_update.exe
+		// the python script allows to automatically scan for the ports
+		return `gx_update.exe dfu ${filename}`;
+	} else {
+		// for tracker firmware, use pydfu.exe
+		return `pydfu.exe ${filename} ${device}`;
+	}
+}
+
 /*
  * Firmware objects
  */
@@ -37,7 +52,7 @@ export type FirmwareVersionsMap = {
 	[key in Device]: FirmwareVersion[];
 };
 
-const urlPrefix = '/firmware'; // URL prefix for firmware files - could be served from a CDN
+export const urlPrefix = '/firmware'; // URL prefix for firmware files - could be served from a CDN
 
 // assume all "unknown" versions (commit hashes / "unknown" notes) have dates from VR Manager's Steam depot
 // notes are as-is & taken directly from the manual
