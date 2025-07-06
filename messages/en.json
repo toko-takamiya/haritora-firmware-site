@@ -105,11 +105,11 @@
 		"title": "Frequently Asked Questions (FAQ)",
 		"what_is_this_website": {
 			"title": "What is this website?",
-			"description": "This is a website that allows you to update the firmware on many of Shiftall's products so you do not need to download the official app. This allows you to update your devices without the official app, allowing mobile users to update once again! This also includes a major fix to be more reliable, allowing even lower-end bluetooth adapters to update successfully!"
+			"description": "This is a website that allows you to update the firmware on many of Shiftall's products so you do not need to download the official app.\n\nThis allows you to update your devices without the official app, allowing mobile users to update once again! This also includes a major fix to be more reliable, allowing even lower-end bluetooth adapters to update successfully!"
 		},
 		"what_is_supported": {
 			"title": "What is supported?",
-			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them. PCs & Android devices with Bluetooth on a browser with WebBluetooth API can use the website to update the trackers, but for iOS, read below."
+			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them.\n\nPCs & Android devices with Bluetooth on a browser with WebBluetooth API can use the website to update the trackers, but for iOS, read below."
 		},
 		"how_does_it_work": {
 			"title": "How does it work?",
@@ -117,7 +117,7 @@
 		},
 		"how_update_mobile": {
 			"title": "How do I update on mobile (iOS/Android)?",
-			"description": "To update on Android devices, use a supported browser and use the website like normal. If you are on iOS device (iPhone, iPad, etc), you are not able to update through the website. You must download the firmware file manually (using the \"Manual/download update\" option) and then use the \"nRF Device Firmware Update\" app on {ios} (or {android}, if you wish) to update them.",
+			"description": "To update on Android devices, use a supported browser and use the website like normal. If you are on iOS device (iPhone, iPad, etc), you are not able to update through the website. You must download the firmware file manually (using the \"Manual/download update\" option) and then use the \"nRF Connect for Mobile\" app on {ios} (or {android}, if you wish) to update them.\n\nDownload & run the app, find the device you want to update, go into the \"DFU\" section and select the firmware file you downloaded. Ensure that you disable \"Enable Alternative Advertising Mode\", otherwise it won't enter DFU mode!",
 			"ios_text": "iOS",
 			"android_text": "Android"
 		},
@@ -129,7 +129,7 @@
 		},
 		"how_did_you_gather_firmware": {
 			"title": "How did you gather the firmware files?",
-			"description": "The firmware files were gathered from the official HaritoraX Wireless DFU {official_website} and {shiftall_vr_manager} (including the {playtest_link} and early beta tests before Steam). Since Shiftall VR Manager is on Steam, we can download old versions at any time (through the {depot_link} and {manifests_link}) which include the firmware files of the HaritoraX Wireless, HaritoraX 2, and the GX(6/2) dongles. If you have any firmware files not on this site, please consider {contributing_link}.",
+			"description": "The firmware files were gathered from the official HaritoraX Wireless DFU {official_website} and {shiftall_vr_manager} (including the {playtest_link} and early beta tests before Steam). Since Shiftall VR Manager is on Steam, we can download old versions at any time (through the {depot_link} and {manifests_link}) which include the firmware files of the HaritoraX Wireless, HaritoraX 2, and the GX(6/2) dongles.\n\nIf you have any firmware files not on this site, please consider {contributing_link}.",
 			"website_text": "website",
 			"shiftall_vr_manager_text": "Shiftall VR Manager",
 			"playtest_text": "playtest",
@@ -143,7 +143,7 @@
 		},
 		"web_bluetooth_error": {
 			"title": "Why do I get a \"web bluetooth is not supported\" error?",
-			"description": "This means that your browser does not support Web Bluetooth or it is not enabled. Please ensure you are using a supported chromium-based browser (like Chrome or Edge). Some browsers like Brave disable Web Bluetooth by default and require changing browser flags (chrome://flags) or do not support it at all (Firefox)."
+			"description": "This means that your browser does not support Web Bluetooth or it is not enabled. Please ensure you are using a supported chromium-based browser (like Chrome or Edge).\n\nSome browsers like Brave disable Web Bluetooth by default and require changing browser flags (chrome://flags) or do not support it at all (Firefox)."
 		},
 		"why_bluetooth_needed": {
 			"title": "Why can I only update my devices with Bluetooth?",

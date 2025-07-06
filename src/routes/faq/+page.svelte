@@ -7,9 +7,9 @@
 		<h2 class="text-xl font-semibold">{m[titleKey]()}</h2>
 		<p class="text-gray-300">
 			{#if isHtml}
-				{@html content}
+				{@html content.replace(/\n/g, '<br>')}
 			{:else}
-				{content}
+				{@html content.replace(/\n/g, '<br>')}
 			{/if}
 		</p>
 	</div>
@@ -32,8 +32,8 @@
 		{@render faqItem(
 			'faq.how_update_mobile.title',
 			m['faq.how_update_mobile.description']({
-				ios: `<a class="text-gray-200 underline" href="https://apps.apple.com/sa/app/nrf-device-firmware-update/id1624454660">${m['faq.how_update_mobile.ios_text']()}</a>`,
-				android: `<a class="text-gray-200 underline" href="https://play.google.com/store/apps/details?id=no.nordicsemi.android.dfu">${m['faq.how_update_mobile.android_text']()}</a>`
+				ios: `<a class="text-gray-200 underline" href="https://apps.apple.com/us/app/nrf-connect-for-mobile/id1054362403">${m['faq.how_update_mobile.ios_text']()}</a>`,
+				android: `<a class="text-gray-200 underline" href="https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp">${m['faq.how_update_mobile.android_text']()}</a>`
 			}),
 			true
 		)}
