@@ -53,13 +53,28 @@
 		if (selectedDevice === Device.GX) {
 			downloadOnly = true;
 			const downloadOnlyCheckbox = document.getElementById('download-only') as HTMLInputElement;
+			const demoModeCheckbox = document.getElementById('demo-mode') as HTMLInputElement;
 			if (downloadOnlyCheckbox) {
 				downloadOnlyCheckbox.checked = true;
 				downloadOnlyCheckbox.disabled = true;
+				downloadOnly = true;
+			}
+			if (demoModeCheckbox) {
+				demoModeCheckbox.checked = false;
+				demoModeCheckbox.disabled = true;
+				demoMode.set(false);
 			}
 		} else {
 			const downloadOnlyCheckbox = document.getElementById('download-only') as HTMLInputElement;
-			if (downloadOnlyCheckbox) downloadOnlyCheckbox.disabled = false;
+			const demoModeCheckbox = document.getElementById('demo-mode') as HTMLInputElement;
+			if (downloadOnlyCheckbox) {
+				downloadOnlyCheckbox.disabled = false;
+				downloadOnly = false;
+			}
+			if (demoModeCheckbox) {
+				demoModeCheckbox.disabled = false;
+				demoMode.set(false);
+			}
 		}
 	});
 
