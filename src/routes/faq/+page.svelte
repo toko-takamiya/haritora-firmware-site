@@ -30,6 +30,15 @@
 		{@render faqItem('faq.how_does_it_work.title', m['faq.how_does_it_work.description']())}
 
 		{@render faqItem(
+			'faq.how_update_mobile.title',
+			m['faq.how_update_mobile.description']({
+				ios: `<a class="text-gray-200 underline" href="https://apps.apple.com/sa/app/nrf-device-firmware-update/id1624454660">${m['faq.how_update_mobile.ios_text']()}</a>`,
+				android: `<a class="text-gray-200 underline" href="https://play.google.com/store/apps/details?id=no.nordicsemi.android.dfu">${m['faq.how_update_mobile.android_text']()}</a>`
+			}),
+			true
+		)}
+
+		{@render faqItem(
 			'faq.how_can_i_contribute.title',
 			m['faq.how_can_i_contribute.description']({
 				github_link: `<a class="text-gray-200 underline" href="https://github.com/JovannMC/haritora-firmware-site">${m['faq.how_can_i_contribute.github_text']()}</a>`,
@@ -58,6 +67,5 @@
 		{@render faqItem('faq.web_bluetooth_error.title', m['faq.web_bluetooth_error.description']())}
 
 		{@render faqItem('faq.why_bluetooth_needed.title', m['faq.why_bluetooth_needed.description']())}
-
 	</div>
 </div>

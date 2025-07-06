@@ -109,11 +109,17 @@
 		},
 		"what_is_supported": {
 			"title": "What is supported?",
-			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them."
+			"description": "Currently, the HaritoraX Wireless and HaritoraX 2 are supported, with the GX(6/2) dongles coming soon. The older HaritoraX Wired (1.0/1.1/1.1b) need to be investigated further and I need help finding firmware files for them. PCs & Android devices with Bluetooth on a browser with WebBluetooth API can use the website to update the trackers, but for iOS, read below."
 		},
 		"how_does_it_work": {
 			"title": "How does it work?",
 			"description": "The devices use the nRF52 platform and can update via BLE or serial/USB, so this uses Web Bluetooth to update the HaritoraX Wireless and HaritoraX 2, with WebUSB for the GX(6/2) dongles (when it's completed)."
+		},
+		"how_update_mobile": {
+			"title": "How do I update on mobile (iOS/Android)?",
+			"description": "To update on Android devices, use a supported browser and use the website like normal. If you are on iOS device (iPhone, iPad, etc), you are not able to update through the website. You must download the firmware file manually (using the \"Manual/download update\" option) and then use the \"nRF Device Firmware Update\" app on {ios} (or {android}, if you wish) to update them.",
+			"ios_text": "iOS",
+			"android_text": "Android"
 		},
 		"how_can_i_contribute": {
 			"title": "How can I contribute?",
