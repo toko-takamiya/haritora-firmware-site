@@ -45,7 +45,7 @@
 			"flash": "Step 3: Flash the selected firmware to your {device} device."
 		},
 		"step_note": {
-			"download_only": "Simply downloading the firmware to your device without flashing it to a device. Useful for archival purposes or advanced users to experiment with.",
+			"download_only": "Simply download the firmware to your device without flashing it to a device. Useful for archival purposes or advanced users to experiment with.",
 			"check_version": "This will check the current firmware version of your device. This is optional and can be skipped if you know the current version.",
 			"set_update_mode": "This will turn your device into DFU (Device Firmware Update) mode, letting the devices appear as \"HaritoraXW-Update\".",
 			"select_update_mode": "Select the device that is now in DFU (Device Firmware Update) mode. It should appear as \"HaritoraXW-Update\".",
