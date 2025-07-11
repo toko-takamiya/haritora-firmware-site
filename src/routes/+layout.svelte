@@ -1,16 +1,35 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { currentLocale } from '$lib/store';
+	import { currentLocale, demoMode, hasSupport } from '$lib/store';
 	import '../app.css';
 	import Toast from '$lib/components/Toast.svelte';
-	import { type Toast as ToastType, toasts } from '$lib/store/ToastProvider';
+	import { type Toast as ToastType, addToast, toasts } from '$lib/store/ToastProvider';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { m } from '$lib/paraglide/messages';
 
 	let { children } = $props();
 
 	let toastList = $state<ToastType[]>([]);
 	toasts.subscribe((value) => {
 		toastList = value as ToastType[];
+	});
+
+	onMount(async () => {
+		console.log(`Browser: ${browser}`);
+		if (!browser || window.location.pathname !== '/') return;
+
+		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
+			console.log('Bluetooth API supported: No');
+			if (!$demoMode) {
+				addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+				hasSupport.set(false);
+			}
+			return;
+		} else {
+			console.log('Bluetooth API supported: Yes');
+		}
 	});
 </script>
 

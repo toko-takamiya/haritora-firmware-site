@@ -6,6 +6,8 @@ import { writable, derived } from 'svelte/store';
 import { m } from '$lib/paraglide/messages.js';
 
 export const currentLocale = writable(getLocale());
+export const hasSupport = writable(true);
+
 
 export function updateLocale(newLocale) {
 	setLocale(newLocale, { reload: false });
