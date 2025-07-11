@@ -59,12 +59,13 @@
 	<meta name="msapplication-TileImage" content="/icons/mstile-144x144.png" />
 
 	<!-- SEO -->
-	<meta name="description" content="Personal website/portfolio of JovannMC" />
-	<meta name="keywords" content="JovannMC, portfolio, website" />
+	<meta name="description" content="A website to update your Haritora devices through WebBluetooth and WebUSB." />
+	<meta name="keywords" content="Haritora, HaritoraX, HaritoraX Wireless, HaritoraX 2, GX6, Shiftall, DFU, Firmware, WebBluetooth, WebUSB" />
 	<meta name="author" content="JovannMC" />
 
 	<!-- Open Graph Tags -->
 	<meta content="SlimeTora: Haritora Firmware Website" property="og:title" />
+	<meta content="site" property="og:type" />
 	<meta
 		content="A website to update your Haritora devices through WebBluetooth and WebUSB."
 		property="og:description"
@@ -72,6 +73,13 @@
 	<meta content="https://dfu.slimetora.dev" property="og:url" />
 	<meta content="https://dfu.slimetora.dev/logo.png" property="og:image" />
 	<meta content="#663499" data-react-helmet="true" name="theme-color" />
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://dfu.slimetora.dev">
+	<meta name="twitter:title" content="site">
+	<meta name="twitter:description" content="A website to update your Haritora devices through WebBluetooth and WebUSB.">
+	<meta name="twitter:image" content="https://dfu.slimetora.dev/logo.png">
 </svelte:head>
 
 <!-- #key used so we can force re-render when locale updates -->
