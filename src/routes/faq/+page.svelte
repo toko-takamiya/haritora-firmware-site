@@ -20,9 +20,9 @@
 </svelte:head>
 
 <div class="mx-auto w-full max-w-2xl space-y-6">
-	<!-- FAQ -->
 	<h1 class="text-center text-3xl font-bold">{m['faq.title']()}</h1>
 	<div class="space-y-4">
+		<!-- FAQ -->
 		{@render faqItem('faq.what_is_this_website.title', m['faq.what_is_this_website.description']())}
 
 		{@render faqItem('faq.what_is_supported.title', m['faq.what_is_supported.description']())}
@@ -62,6 +62,7 @@
 
 		<hr class="hr" />
 
+		<!-- Troubleshooting -->
 		{@render faqItem('faq.why_did_it_not_work.title', m['faq.why_did_it_not_work.description']())}
 
 		{@render faqItem('faq.web_bluetooth_error.title', m['faq.web_bluetooth_error.description']())}

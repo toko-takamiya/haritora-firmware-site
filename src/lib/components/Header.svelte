@@ -1,3 +1,8 @@
+<script lang="ts">
+	import { page } from '$app/state';
+	const url = page.url.pathname;
+</script>
+
 <header class="w-full bg-gradient-to-r from-gray-800 to-gray-700 py-4 text-gray-100 shadow-md">
 	<div class="container mx-auto flex items-center justify-between px-4">
 		<div class="flex items-center gap-3">
@@ -5,8 +10,10 @@
 			<span class="text-lg font-semibold">SlimeTora</span>
 		</div>
 		<nav class="flex gap-6">
-			<a href="/" target="_self" class="hover:underline">Home</a>
-			<a href="/faq" target="_self" class="hover:underline">FAQ</a>
+			<a href="/" target="_self" class="hover:underline {url === '/' ? 'font-bold' : ''}">Home</a>
+			<a href="/faq" target="_self" class="hover:underline {url === '/faq' ? 'font-bold' : ''}"
+				>FAQ</a
+			>
 			<a
 				href="https://github.com/JovannMC/haritora-firmware-site"
 				target="_blank"

@@ -7,9 +7,12 @@
 	import { type Toast as ToastType, addToast, toasts } from '$lib/store/ToastProvider';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { page } from '$app/state';
 	import { m } from '$lib/paraglide/messages';
 
 	let { children } = $props();
+
+	const url = page.url.pathname;
 
 	let toastList = $state<ToastType[]>([]);
 	toasts.subscribe((value) => {
@@ -18,7 +21,7 @@
 
 	onMount(async () => {
 		console.log(`Browser: ${browser}`);
-		if (!browser || window.location.pathname !== '/') return;
+		if (!browser || url !== '/') return;
 
 		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
 			console.log('Bluetooth API supported: No');
@@ -62,7 +65,10 @@
 
 	<!-- Open Graph Tags -->
 	<meta content="SlimeTora: Haritora Firmware Website" property="og:title" />
-	<meta content="A website to update your Haritora devices through WebBluetooth and WebUSB." property="og:description" />
+	<meta
+		content="A website to update your Haritora devices through WebBluetooth and WebUSB."
+		property="og:description"
+	/>
 	<meta content="https://dfu.slimetora.dev" property="og:url" />
 	<meta content="https://dfu.slimetora.dev/logo.png" property="og:image" />
 	<meta content="#663499" data-react-helmet="true" name="theme-color" />
