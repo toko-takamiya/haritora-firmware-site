@@ -64,10 +64,6 @@
 			"select_update_mode": "Select DFU device",
 			"flash": "Flash firmware"
 		},
-		"progress": {
-			"status": "Status: {status}",
-			"progress": "Progress: {progress}%"
-		},
 		"status": {
 			"waiting": "waiting for user...",
 			"checking_version": "checking version...",
@@ -86,7 +82,9 @@
 			"firmware_completed": "firmware update completed!",
 			"please_select": "please select a device and firmware first",
 			"firmware_updater_not_initialized": "firmware updater is not initialized",
-			"status": "Status: {status}"
+			"status": "Status: {status}",
+			"note": "Having issues? Check out the {faq} page!",
+			"faq": "FAQ"
 		},
 		"debug_log": "Debug log:"
 	},

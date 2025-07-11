@@ -540,6 +540,11 @@
 				<p>{m['dfu.status.status']({ status: updateStatus })}</p>
 				<Progress value={updateProgress > 0 ? updateProgress : null} />
 			</div>
+			<p class="text-center text-sm opacity-70">
+				{@html m['dfu.status.note']({
+					faq: `<a class="underline" href="/faq">${m['dfu.status.faq']()}</a>`
+				})}
+			</p>
 		{/if}
 	</div>
 
@@ -562,6 +567,7 @@
 	<p class="mt-10 text-center text-sm opacity-70">
 		{m['disclaimer']()}
 	</p>
+
 	<p class="text-center text-sm opacity-70">
 		{__APP_VERSION__} -
 		<a
