@@ -6,9 +6,7 @@
 		type FirmwareVersion,
 		urlPrefix,
 		getDFUCommand,
-
 		hasSupport
-
 	} from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
@@ -565,6 +563,14 @@
 		{m['disclaimer']()}
 	</p>
 	<p class="text-center text-sm opacity-70">
-		{__APP_VERSION__} - {__COMMIT_HASH__}
+		{__APP_VERSION__} -
+		<a
+			class="underline"
+			href={`https://github.com/JovannMC/haritora-firmware-site/commit/${__COMMIT_HASH__}`}
+			target="_blank"
+			rel="noopener"
+		>
+			{__COMMIT_HASH__}
+		</a>
 	</p>
 </div>

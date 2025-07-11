@@ -6,7 +6,12 @@ import { defineConfig } from 'vite';
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-const commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+let commitHash = 'unknown';
+try {
+	commitHash = execSync('git rev-parse --short HEAD').toString().trim();
+} catch (e) {
+	console.warn('Could not determine Git commit hash:', e);
+}
 
 export default defineConfig({
 	plugins: [
@@ -16,7 +21,7 @@ export default defineConfig({
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
-			strategy: ["globalVariable", "preferredLanguage", "baseLocale"]
+			strategy: ['globalVariable', 'preferredLanguage', 'baseLocale']
 		})
 	],
 	define: {
