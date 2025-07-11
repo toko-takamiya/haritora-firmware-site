@@ -568,7 +568,7 @@
 			class="underline"
 			href={`https://github.com/JovannMC/haritora-firmware-site/commit/${__COMMIT_HASH__}`}
 			target="_blank"
-			rel="noopener"
+			rel="noopener noreferrer"
 		>
 			{__COMMIT_HASH__}
 		</a>
