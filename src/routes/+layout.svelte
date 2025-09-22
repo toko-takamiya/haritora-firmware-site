@@ -1,16 +1,38 @@
 <script lang="ts">
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
-	import { currentLocale } from '$lib/store';
+	import { currentLocale, demoMode, hasSupport } from '$lib/store';
 	import '../app.css';
 	import Toast from '$lib/components/Toast.svelte';
-	import { type Toast as ToastType, toasts } from '$lib/store/ToastProvider';
+	import { type Toast as ToastType, addToast, toasts } from '$lib/store/ToastProvider';
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { page } from '$app/state';
+	import { m } from '$lib/paraglide/messages';
 
 	let { children } = $props();
+
+	const url = page.url.pathname;
 
 	let toastList = $state<ToastType[]>([]);
 	toasts.subscribe((value) => {
 		toastList = value as ToastType[];
+	});
+
+	onMount(async () => {
+		console.log(`Browser: ${browser}`);
+		if (!browser || url !== '/') return;
+
+		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
+			console.log('Bluetooth API supported: No');
+			if (!$demoMode) {
+				addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
+				hasSupport.set(false);
+			}
+			return;
+		} else {
+			console.log('Bluetooth API supported: Yes');
+		}
 	});
 </script>
 
@@ -37,16 +59,27 @@
 	<meta name="msapplication-TileImage" content="/icons/mstile-144x144.png" />
 
 	<!-- SEO -->
-	<meta name="description" content="Personal website/portfolio of JovannMC" />
-	<meta name="keywords" content="JovannMC, portfolio, website" />
+	<meta name="description" content="A website to update your Haritora devices through WebBluetooth and WebUSB." />
+	<meta name="keywords" content="Haritora, HaritoraX, HaritoraX Wireless, HaritoraX 2, GX6, Shiftall, DFU, Firmware, WebBluetooth, WebUSB" />
 	<meta name="author" content="JovannMC" />
 
 	<!-- Open Graph Tags -->
 	<meta content="SlimeTora: Haritora Firmware Website" property="og:title" />
-	<meta content="A website to update your Haritora devices through WebBluetooth and WebUSB." property="og:description" />
+	<meta content="site" property="og:type" />
+	<meta
+		content="A website to update your Haritora devices through WebBluetooth and WebUSB."
+		property="og:description"
+	/>
 	<meta content="https://dfu.slimetora.dev" property="og:url" />
 	<meta content="https://dfu.slimetora.dev/logo.png" property="og:image" />
 	<meta content="#663499" data-react-helmet="true" name="theme-color" />
+
+	<!-- Twitter Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://dfu.slimetora.dev">
+	<meta name="twitter:title" content="site">
+	<meta name="twitter:description" content="A website to update your Haritora devices through WebBluetooth and WebUSB.">
+	<meta name="twitter:image" content="https://dfu.slimetora.dev/logo.png">
 </svelte:head>
 
 <!-- #key used so we can force re-render when locale updates -->

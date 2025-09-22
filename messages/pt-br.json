@@ -1,0 +1,151 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"disclaimer": "Eu não sou responsável por qualquer dano causado pela atualização/downgrade do sistema nos seus dispositivos. Você concorda usar essa ferramenta por sua conta e risco.\nEsse site é uma ferramenta não oficial e não afiliada com a Shiftall Inc.",
+	"select": {
+		"device": "Selecione seu dispositivo",
+		"firmware": "Selecione versão do sistema"
+	},
+	"settings": {
+		"settings": "Configurações",
+		"packet_send_delay": "Atraso no envio de packets (ms)",
+		"show_all_versions": "Mostrar versões de sistema não testadas",
+		"manual_update": "Download firmware only",
+		"demo_mode": "Modo de demonstração"
+	},
+	"firmware": {
+		"version": "v{version} ({date})",
+		"release_notes": "Notas de atualização",
+		"versions": {
+			"unknown": "Unknown\n\nIsso não está documentado no manual oficial, então não há informações conhecidas sobre esta versão.",
+			"mc4seb": {
+				"1.0.14": "Atualização pequena.",
+				"1.0.15": "Ângulo de captura do sensor de LiDAR melhorou (mais amplo).\nCorrige um problema que a função de desligar automaticamente algumas vezes não funcionava no modo do dongle GX.\nOutras modificações pequenas.",
+				"1.0.24": "Corrige um erro raro onde o dispositivo não podia ser desligado sem desligar o dispositivo à força.\nCorrige o problema onde o LED vermelho iria piscar rapidamente pouco antes de terminar de carregar a bateria.\nOutros problemas pequenos corrigidos.",
+				"1.0.25": "Corrige um problema onde o LED vermelho iria ficar ligado mesmo depois de terminar de carregar.",
+				"1.0.27": "Corrige um problema raro onde a conexão do dongle GX poderia ser inesperadamente encerrada."
+			},
+			"mc3s": {
+				"1.0.22": "Corrige um bug que as configurações do local anexado(peito, quadril, etc.) poderia ser resetado.\nOutras modificações pequenas.",
+				"1.0.25": "Nenhuma mudança em funcionalidade ou desempenho sob uso normal.",
+				"1.0.28": "Agora é possível trocar o ponto anexado para todos “Conjuntos de expansão de cotovelo sem fio HaritoraX“ vendidos anteriormente. \nPor exemplo, você pode trocar Cotovelo → Pé ou Cotovelo → Pulso.\n\nOutras pequenas melhorias."
+			},
+			"mc3s_dongle": {
+				"1.0.17": "Firmware na remessa inicial.",
+				"1.0.19": "Corrige problemas relatada a comunicação",
+				"1.0.26": "Compatível com HaritoraX 2."
+			}
+		}
+	},
+	"dfu": {
+		"step": {
+			"download_firmware": "Etapa 0: Baixe o firmware para o seu dispositivo local.",
+			"download_updater": "Etapa 2: Baixe o atualizador de firmware ao seu dispositivo local.",
+			"copy_command": "Etapa 3: Execute o comando do atualizador de firmware.",
+			"check_version": "Etapa 0: Verifique o firmware do seu {device} dispositivo.",
+			"set_update_mode": "Etapa 1: Coloque seu {device} dispositivo no modo de atualização.",
+			"select_update_mode": "Etapa 2: Selecione seu {device} dispositivo de novo.",
+			"flash": "Step 3: Atualize o firmware selecionado no seu {device} dispositivo."
+		},
+		"step_note": {
+			"download_firmware": "Baixa o firmware que você quer atualizar ao seu dispositivo local. Isso é um arquivo de firmware oficial da Shiftall.",
+			"download_updater": "Baixar o atulizador de firmware ao seu dispositivo local. Isso é a ferramenta de CLI oficial da Shiftall feita para atualizar o firmware do seu dispositivo.",
+			"copy_command": "Copie e cole este comando no seu terminal para iniciar o processo de atualização de firmware: {command}",
+			"check_version": "Isso verificará a versão de firmware atual do seu dispositivo. Isso é opcional and pode ser ignorado se você sabe a versão atual do seu rastreador.",
+			"set_update_mode": "Isso colocará seu dispositivo no modo DFU (Device Firmware Update), deixando os dispositivos aparecerem como \"HaritoraXW-Update\".",
+			"select_update_mode": "Selecione o dispositivo que agora está no modo DFU (Device Firmware Update). Deve aparecer como \"HaritoraXW-Update\".",
+			"flash": "Isso vai atualizar a versão de firmware do seu dispositivo."
+		},
+		"button": {
+			"download_firmware": "Baixar",
+			"download_updater": "Baixar atualizador",
+			"copy_command": "Copiar comando",
+			"check_version": "Verificar versão",
+			"set_update_mode": "Colocar no modo de atualização",
+			"select_update_mode": "Selecionar dispositivo no modo DFU",
+			"flash": "Atualizar firmware"
+		},
+		"status": {
+			"waiting": "esperando por usuário...",
+			"checking_version": "verificando versão...",
+			"got_version": "achou versão {version} ({date})",
+			"selecting": "selecionando dispositivo em modo de atualização...",
+			"updating": "atualizando firmware... ({current}/{total} bytes, {progress}%)",
+			"completed": "Atualização de firmware completada com sucesso!",
+			"cancelled": "atualização de firmware cancelada.",
+			"connection_lost": "conexão com o dispositivo perdida durante atualização.",
+			"invalid_firmware": "O arquivo de firmware selecionado é inválido ou está corrompido.",
+			"setting_update_mode": "colocando dispositivo no modo de atualização...",
+			"set_update_mode": "dispositivo está no modo de atualização!",
+			"selecting_dfu": "selecionando dispostivo no modo DFU...",
+			"dfu_selected": "dispositivo no modo DFU selecionado e está preparado para atualização.",
+			"starting_update": "começando atualização de firmware...",
+			"firmware_completed": "atualização de firmware completa!",
+			"please_select": "por favor selecione um dispositivo e firmware primeiro",
+			"firmware_updater_not_initialized": "atualizador de firmware não foi inicializado",
+			"status": "Status: {status}",
+			"note": "Está com problemas? Confira a página de {faq}!",
+			"faq": "perguntas frequentes"
+		},
+		"debug_log": "Registro de depuração:"
+	},
+	"toasts": {
+		"show_all_versions_description": "Mostrar todas as versões de firmware, incluindo as que não forem testadas completamente. Isto não é recomendado!",
+		"packet_send_delay_description": "Intervalo entre mandando packets ao dispositivo. Um intervalo maior manda dados mais devagar mas é mais provável de atualizar seu dispositivo com sucesso. Usando o valor de -1 desativa isso completamente.",
+		"manual_update_description": "Atualizar os rastreadores manualmente para usuários avançados, se não suportado, ou você quer baixar o firmware para experimentar.",
+		"os_unsupported": "Seu sistema operacional não é suportado para atualização manual, por favor tente a atualização automática.",
+		"command_copied": "Comando copiado!",
+		"command_copy_failed": "Falha ao copiar comando!",
+		"web_bluetooth_not_supported": "Web Bluetooth não é suportado (ou está desativado globalmente) neste navegador. Por favor use Chrome, Edge ou outro navegador baseado em Chromium para atualizar o firmware do seu dispositivo.",
+		"demo_mode_description": "Ativar modo de demonstração para simular o processo de atualização sem atualizar seu dispositivo de verdade. Apenas para mostrar!",
+		"demo_enabled": "Modo de demonstração está ativado - todas ações são simuladas"
+	},
+	"faq": {
+		"title": "Perguntas (FAQ)",
+		"what_is_this_website": {
+			"title": "O que é este site?",
+			"description": "Este é um site que deixa você atualizar o firmware em muitos dos produtos da Shiftall então você não precisa baixar o aplicativo oficial.\n\nIsso deixa você atualizar os seus dispositivos sem o aplicativo oficial, deixando usuários de celular atualizar de novo! Isso também inclui uma grande correção para ser mais confiável, permitindo que até mesmo adaptadores Bluetooth de baixo custo sejam atualizados com sucesso!"
+		},
+		"what_is_supported": {
+			"title": "Quais dispositivos são suportados?",
+			"description": "Por enquanto, o HaritoraX Wireless e o HaritoraX 2 são suportados, com os dongles GX(6/2) chegando em breve. O HaritoraX antigo via cabo (1.0/1.1/1.1b) precisa ser investigado mais e eu preciso de ajuda procurando os arquivos de firmware para eles."
+		},
+		"how_does_it_work": {
+			"title": "Como que isso funciona?",
+			"description": "Os dispositivos usam o padrão nRF52 e podem ser atualizados via BLE ou serial/USB, então isso aqui usa Web Bluetooth para atualizar o HaritoraX Wireless e o HaritoraX 2, com WebUSB para os dongles GX(6/2) (quando estiverem completos).\n\nPCs & dispositivos Android com navegador em um navegador com a API WebBluetooth podem usar o website para atualizar os rastreadores, mas para iOS, leia abaixo."
+		},
+		"how_update_mobile": {
+			"title": "Como que eu atualizo meu dispositivo no celular (iOS/Android)?",
+			"description": "Para atualizar em celulares Android, use um navegador suportado e use o site como normal. Se você está usando um dispositivo iOS (iPhone, iPad, etc), você não consegue atualizar pelo website. Você precisa baixar o arquivo de firmware manualmente (usando a opção \"Atualização/Download manual\") e depois disso use o aplicativo no {ios} (ou {android}, se você quiser) \"nRF Connect for Mobile\" para o atualizá-los.\n\nBaixe e abra o aplicativo, encontre o dispositivo que você quer atualizar, vá na seção \"DFU\" e selecione o arquivo de firmware que você baixou. Tenha certeza que você desativou \"Enable Alternative Advertising Mode\", se não o seu dispositivo não entrará no modo DFU!",
+			"ios_text": "iOS",
+			"android_text": "Android"
+		},
+		"how_can_i_contribute": {
+			"title": "Como que eu posso contribuir?",
+			"description": "Você pode contribuir por reportando bugs, sugerindo funções ou ajudando com traduções. Você também pode ajudar dando arquivo de firmware que ainda não está no site para qualquer dispositivo. Por favor verifique a página {github_link} (ou {discord_link}) para começar.",
+			"github_text": "GitHub",
+			"discord_text": "Discord"
+		},
+		"how_did_you_gather_firmware": {
+			"title": "Como você encontrou os arquivos de firmware?",
+			"description": "Os arquivos de firmware foram encontrados pelo DFU Oficial do HaritoraX Wireless {official_website} e {shiftall_vr_manager} (incluindo o {playtest_link} e testes de beta antes de estar na Steam). Como o Shitall VR Manager está na Steam, podemos baixar versões antigas a qualquer momento (pelo o {depot_link} e {manifests_link}) que incluem os arquivos de firmware do HaritoraX Wireless, HaritoraX 2, e os dongles GX(6/2).\n\nSe você tem algum arquivo de firmware que não está nesse site ainda, por favor considere {contributing_link}.",
+			"website_text": "site",
+			"shiftall_vr_manager_text": "Shiftall VR Manager",
+			"playtest_text": "playtest",
+			"depot_text": "depot",
+			"manifests_text": "manifests",
+			"contributing_text": "contribuindo"
+		},
+		"why_did_it_not_work": {
+			"title": "Por que não funcionou? // Por que o progresso está pulando as porcentagens?",
+			"description": "Por padrão, nós configuramos um padrão que tenta ser mais confiável quando mandando dados aos dispositivos com o custo de um pouco de desempenho. Se isso ainda falha ou não funciona como esperado, tente aumentar a opção \"Atraso de envio de packets \" nas configurações por uma pequena quantia (5, 10, etc) - isso vai fazer a atualização mais devagar mas mais confiável."
+		},
+		"web_bluetooth_error": {
+			"title": "Por que aparece um erro de \"web bluetooth não é suportado\"?",
+			"description": "Isso significa que seu navegador não suporta Web Bluetooth ou a função está desligada. Por favor tenha certeza que você está usando um navegador baseado em Chromium suportado (como Chrome ou Edge).\n\nAlguns navegadores como o Brave desativam Web Bluetooth por padrão e precisam que troque configurações (chrome://flags) ou não suportam mesmo. (Firefox)."
+		},
+		"why_bluetooth_needed": {
+			"title": "Por que eu consigo atualizar meus dispositivos só com Bluetooth?",
+			"description": "Até onde sabemos, é apenas possível atualizar os rastreadores com Bluetooth por causa de limitações de firmware. A Shiftall talvez irá adicionar suporte pra isso no futuro com uma atualização de firmware, mas por enquanto você precisa de Bluetooth pra atualizar os seus rastreadores."
+		}
+	}
+}

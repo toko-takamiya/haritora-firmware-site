@@ -64,10 +64,6 @@
 			"select_update_mode": "DFUデバイスを選択",
 			"flash": "ファームウェア書き込み"
 		},
-		"progress": {
-			"status": "ステータス: {status}",
-			"progress": "進捗: {progress}%"
-		},
 		"status": {
 			"waiting": "ユーザー待ち...",
 			"error": "ファームウェアの書き込みにエラーが発生しました。",
@@ -86,7 +82,9 @@
 			"firmware_completed": "ファームウェアのアップデートが完了しました！",
 			"please_select": "最初にデバイスとファームウェアを選択してください",
 			"firmware_updater_not_initialized": "ファームウェア・アップデータが初期化されません",
-			"status": "ステータス: {status}"
+			"status": "ステータス: {status}",
+			"note": "問題がありますか？ {faq} ページを確認してください！",
+			"faq": "FAQ"
 		},
 		"debug_log": "デバッグログ:"
 	},

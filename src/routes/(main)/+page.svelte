@@ -5,7 +5,8 @@
 		demoMode,
 		type FirmwareVersion,
 		urlPrefix,
-		getDFUCommand
+		getDFUCommand,
+		hasSupport
 	} from '$lib/store';
 	import { Device, firmwareVersions } from '$lib/store';
 	import { addToast } from '$lib/store/ToastProvider';
@@ -26,7 +27,6 @@
 	let updateProgress = $state(0);
 	let updateStatus = $state(m['dfu.status.waiting']());
 	let isUpdating = $state(false);
-	let hasSupport = $state(true);
 	let logMessages = $state<string[]>([]);
 	let logContainer = $state<HTMLDivElement | null>(null);
 	let wasScrolledToBottom = $state(true);
@@ -308,23 +308,7 @@
 	}
 
 	// set up updater callbacks & check for Web Bluetooth support on page load
-	onMount(async () => {
-		setupUpdaterCallbacks();
-
-		console.log(`Browser: ${browser}`);
-		if (!browser) return;
-
-		if (!navigator.bluetooth || !(await navigator.bluetooth.getAvailability())) {
-			console.log('Bluetooth API supported: No');
-			if (!$demoMode) {
-				addToast('error', m['toasts.web_bluetooth_not_supported'](), false);
-				hasSupport = false;
-			}
-			return;
-		} else {
-			console.log('Bluetooth API supported: Yes');
-		}
-	});
+	onMount(() => setupUpdaterCallbacks());
 </script>
 
 <svelte:head>
@@ -489,7 +473,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || (!hasSupport && !$demoMode)}
+					disabled={isUpdating || (!$hasSupport && !$demoMode)}
 					onclick={handleCheckVersion}
 				>
 					{m['dfu.button.check_version']()}
@@ -510,7 +494,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || (!hasSupport && !$demoMode)}
+					disabled={isUpdating || (!$hasSupport && !$demoMode)}
 					onclick={handleSetUpdateMode}
 				>
 					{m['dfu.button.set_update_mode']()}
@@ -531,7 +515,7 @@
 				</div>
 				<button
 					class="btn bg-primary-500"
-					disabled={isUpdating || (!hasSupport && !$demoMode)}
+					disabled={isUpdating || (!$hasSupport && !$demoMode)}
 					onclick={handleSelectDFUDevice}
 				>
 					{m['dfu.button.select_update_mode']()}
@@ -556,6 +540,11 @@
 				<p>{m['dfu.status.status']({ status: updateStatus })}</p>
 				<Progress value={updateProgress > 0 ? updateProgress : null} />
 			</div>
+			<p class="text-center text-sm opacity-70">
+				{@html m['dfu.status.note']({
+					faq: `<a class="underline" href="/faq">${m['dfu.status.faq']()}</a>`
+				})}
+			</p>
 		{/if}
 	</div>
 
@@ -578,7 +567,16 @@
 	<p class="mt-10 text-center text-sm opacity-70">
 		{m['disclaimer']()}
 	</p>
+
 	<p class="text-center text-sm opacity-70">
-		{__APP_VERSION__} - {__COMMIT_HASH__}
+		{__APP_VERSION__} -
+		<a
+			class="underline"
+			href={`https://github.com/JovannMC/haritora-firmware-site/commit/${__COMMIT_HASH__}`}
+			target="_blank"
+			rel="noopener noreferrer"
+		>
+			{__COMMIT_HASH__}
+		</a>
 	</p>
 </div>
