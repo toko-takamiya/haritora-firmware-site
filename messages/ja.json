@@ -10,7 +10,7 @@
 		"packet_send_delay": "パケット送信遅延時間(ms)",
 		"show_all_versions": "未テストのバージョンを表示",
 		"manual_update": "Manual/download update",
-		"demo_mode": "Demo mode"
+		"demo_mode": "デモモード"
 	},
 	"firmware": {
 		"version": "v{version} ({date})",
@@ -83,7 +83,7 @@
 			"please_select": "最初にデバイスとファームウェアを選択してください",
 			"firmware_updater_not_initialized": "ファームウェア・アップデータが初期化されません",
 			"status": "ステータス: {status}",
-			"note": "問題がありますか？ {faq} ページを確認してください！",
+			"note": "問題がありましたか？ {faq} ページを確認してください！",
 			"faq": "FAQ"
 		},
 		"debug_log": "デバッグログ:"
@@ -112,6 +112,12 @@
 		"how_does_it_work": {
 			"title": "どのように機能しますか？",
 			"description": "デバイスはnRF52プラットフォームを使用しており、BLEまたはシリアル/USB経由でアップデートできます。HaritoraX WirelessとHaritoraX 2のアップデートにはWeb Bluetoothを使用し、GX(6/2)ドングルにはWebUSBを使用します（完成次第）。"
+		},
+		"how_update_mobile": {
+			"title": "どうすればモバイル端末でアップデートできますか (iOS/Android)？",
+			"description": "アンドロイド端末でアップデートを行うには、対応ブラウザを使用し、通常通りウェブサイトをご利用ください。iOSデバイス（iPhone、iPadなど）をご利用の場合、ウェブサイトからのアップデートはできません。ファームウェアファイルを手動でダウンロードし ( \"Manual/download update\" オプションを使用) 、 {ios} の \"nRF Connect for Mobile\" アプリ (または、もし望むのであれば {android}) を使用してアップデートする必要があります。\n\nアプリをダウンロードして実行し、アップデートしたいデバイスを見つけて \"DFU\" セクションに入り、ダウンロードしたファームウェアファイルを選択します。 \"Enable Alternative Advertising Mode\" を無効にしてください、でなければDFUモードに入りません！",
+			"ios_text": "iOS",
+			"android_text": "Android"
 		},
 		"how_can_i_contribute": {
 			"title": "どうすれば貢献できますか？",
